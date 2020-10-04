@@ -1,0 +1,59 @@
+.body {
+	overflow: hidden;
+	font-family: sans-serif;
+	background: white;
+	padding: 0;
+	margin: 0;
+}
+
+h1, p {
+	margin: 0;
+}
+
+#reactive-stack-app {
+	position: absolute;
+	top: 0;
+	bottom: 0;
+	left: 0;
+	right: 0;
+	padding: 0;
+	overflow: hidden;
+	font-size: 11pt;
+	display: grid;
+	grid-template-columns: 1fr;
+	grid-template-rows: 50px auto;
+	grid-template-areas: "header" "content";
+}
+
+#header {
+	grid-area: header;
+	overflow: hidden;
+	background: #d2edf4;
+	background-image: linear-gradient(to bottom, #d0edf5, #e1e5f0 100%);
+}
+
+#content {
+	grid-area: content;
+	overflow: auto;
+}
+
+.vertical-center {
+	margin: 0;
+	position: absolute;
+	top: 50%;
+	-ms-transform: translateY(-50%);
+	transform: translateY(-50%);
+}
+
+a {
+	color: blue;
+	text-decoration: none;
+}
+
+a:hover {
+	color: red;
+}
+
+.active {
+	background: #aaa;
+}

@@ -1,0 +1,33 @@
+#lorems-component {
+	display: grid;
+	grid-template-columns: 1fr minmax(0px, auto);
+	grid-template-rows: 30px auto;
+	grid-template-areas: "controls controls" "grid preview";
+	padding: 0 5px 5px 5px;
+}
+
+#lorems-controls {
+	grid-area: controls;
+	padding: 5px;
+}
+
+#lorems-grid {
+	grid-area: grid;
+}
+
+#lorems-preview {
+	grid-area: preview;
+}
+
+th {
+	white-space: nowrap;
+}
+
+#lorems-component tr {
+	cursor: pointer;
+}
+
+.icon {
+	width: 10px;
+	text-align: right;
+}

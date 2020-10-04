@@ -1,0 +1,31 @@
+#lorem-component {
+	position: relative;
+	display: grid;
+	grid-template-columns: 1fr;
+	grid-template-rows: auto minmax(35px, auto) 35px;
+	grid-template-areas: "form" "meta" "controls";
+}
+
+#lorem-controls {
+	grid-area: controls;
+	display: flex;
+	justify-content: flex-end;
+	padding: 5px;
+}
+
+#lorem-controls > button {
+	cursor: pointer;
+}
+
+#lorem-meta {
+	grid-area: meta;
+	display: flex;
+	text-align: right;
+	justify-content: flex-end;
+	padding: 5px;
+}
+
+#lorem-form {
+	grid-area: form;
+	padding: 5px;
+}

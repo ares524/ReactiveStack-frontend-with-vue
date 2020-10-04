@@ -1,2 +1,27 @@
-# reactive-stack-js-rest-frontend-vue
-reactive-stack-js rest frontend with vue
+## ReactiveStack frontend with vue
+
+See [reactive-stack](https://github.com/cope/reactive-stack) for more info.
+
+
+## Project setup
+```
+yarn install
+```
+
+### Compiles and hot-reloads for development
+```
+yarn serve
+```
+
+### Compiles and minifies for production
+```
+yarn build
+```
+
+### Lints and fixes files
+```
+yarn lint
+```
+
+### Customize configuration
+See [Configuration Reference](https://cli.vuejs.org/config/).

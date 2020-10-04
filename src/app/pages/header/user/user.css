@@ -1,0 +1,20 @@
+.FacebookButton, .GoogleButton {
+	color: #fff !important;
+	border: 1.5px solid #fff !important;
+	font-size: 7.5pt !important;
+	padding: 3px 5px 3px 5px !important;
+	cursor: pointer;
+	width: 35px;
+}
+
+.FacebookButton {
+	background: #2185D0;
+}
+
+.GoogleButton {
+	background: #DB2828;
+}
+
+.logout {
+	font-size: 7.5pt;
+}

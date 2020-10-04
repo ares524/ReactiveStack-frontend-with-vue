@@ -1,0 +1,41 @@
+#lorems-preview-component {
+	display: grid;
+	grid-template-columns: 1fr;
+	grid-template-rows: 25px fit-content(0) auto;
+	grid-template-areas: "edit" "preview" "grid";
+	padding: 5px;
+}
+
+#lorems-preview-edit {
+	grid-area: edit;
+	display: flex;
+	justify-content: flex-end;
+}
+
+#lorems-preview-edit > button {
+	cursor: pointer;
+}
+
+#lorems-preview-content {
+	grid-area: preview;
+}
+
+#lorems-preview-grid {
+	grid-area: grid;
+}
+
+#lorems-preview-content > p {
+	padding: 3px;
+}
+
+#lorems-preview-content > div {
+	padding: 25px 0 0 25px;
+}
+
+.preview-label {
+	font-weight: bold;
+	float: left;
+	width: 75px;
+	text-align: right;
+	padding: 0 5px 0 0;
+}

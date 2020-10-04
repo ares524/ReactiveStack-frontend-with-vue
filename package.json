@@ -1,0 +1,61 @@
+{
+	"name": "frontend-vue",
+	"version": "0.1.0",
+	"description": "reactive app frontend vue",
+	"author": "Predrag Stojadinovic <predrag@stojadinovic.net>",
+	"proxy": "http://localhost:3003",
+	"scripts": {
+		"serve": "vue-cli-service serve --port 3006 --open",
+		"build": "vue-cli-service build",
+		"lint": "vue-cli-service lint",
+		"start": "npm run serve",
+		"last": "yarn upgrade-interactive --latest",
+		"up": "yarn upgrade-interactive"
+	},
+	"dependencies": {
+		"core-js": "^3.6.5",
+		"json-diff": "^0.5.4",
+		"jsonwebtoken": "^8.5.1",
+		"lodash": "^4.17.20",
+		"moment": "^2.27.0",
+		"query-string": "^6.13.1",
+		"reconnecting-websocket": "^4.4.0",
+		"rxjs": "^6.6.2",
+		"semantic-ui-vue": "^0.11.0",
+		"uuid": "^8.3.0",
+		"vue": "^3.0.0-0",
+		"vue-router": "^4.0.0-0",
+		"vuex": "^3.5.1"
+	},
+	"devDependencies": {
+		"@vue/cli-plugin-babel": "~4.5.0",
+		"@vue/cli-plugin-eslint": "~4.5.0",
+		"@vue/cli-plugin-router": "~4.5.0",
+		"@vue/cli-service": "~4.5.0",
+		"@vue/compiler-sfc": "^3.0.0",
+		"babel-eslint": "^10.1.0",
+		"eslint": "^7.9.0",
+		"eslint-plugin-vue": "^7.0.0-0"
+	},
+	"eslintConfig": {
+		"root": true,
+		"env": {
+			"node": true
+		},
+		"extends": [
+			"plugin:vue/essential",
+			"eslint:recommended"
+		],
+		"parserOptions": {
+			"parser": "babel-eslint"
+		}
+	},
+	"browserslist": [
+		"> 1%",
+		"last 2 versions",
+		"not dead"
+	],
+	"engines": {
+		"node": ">=12"
+	}
+}
