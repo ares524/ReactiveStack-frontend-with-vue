@@ -20,7 +20,7 @@ export default class AUpdater {
 		this._init(config)
 			.then(() => {
 				this._initialized = true;
-				console.log(this._name, 'initialized.')
+				console.log(this._name, 'initialized.');
 			})
 			.catch((err) => console.error(this._name, 'initialization error', err));
 	}
