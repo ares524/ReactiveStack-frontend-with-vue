@@ -1,5 +1,5 @@
-import _ from 'lodash';
-import {reactive} from 'vue';
+import _ from "lodash";
+import {reactive} from "vue";
 
 export const loremsStore = reactive({
 	lorems: [],

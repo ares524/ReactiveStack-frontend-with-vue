@@ -1,9 +1,9 @@
-import {reactive} from 'vue';
+import {reactive} from "vue";
 import {loremsStore} from "../_store/lorems.store";
 
 export default {
-	name: 'Controls',
-	emits: ['resend-config'],
+	name: "Controls",
+	emits: ["resend-config"],
 	data() {
 		return {
 			MIN_PAGE_SIZE: 5,
@@ -14,7 +14,7 @@ export default {
 		return reactive({
 			page: 1,
 			pageSize: 10,
-			search: ''
+			search: ""
 		});
 	},
 	computed: {
@@ -24,7 +24,7 @@ export default {
 	},
 	methods: {
 		emit() {
-			this.$emit('resend-config', {
+			this.$emit("resend-config", {
 				page: this.page,
 				pageSize: this.pageSize,
 				search: this.search
@@ -43,7 +43,7 @@ export default {
 			this.pageSize++;
 		},
 		resetSearch() {
-			this.search = '';
+			this.search = "";
 		}
 	},
 	watch: {

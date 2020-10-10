@@ -1,14 +1,14 @@
-import {loremStore} from './lorem.store';
+import {loremStore} from "./lorem.store";
 import AUpdater from "@/_reactivestack/_a.updater";
 import ClientSocket from "@/_reactivestack/client.socket";
 
 const _initialConfig = () => ({_id: null});
 
 export default class LoremUpdater extends AUpdater {
-	_path = 'lorem';
+	_path = "lorem";
 
 	constructor() {
-		super('LoremUpdater');
+		super("LoremUpdater");
 	}
 
 	_isMyPath(path) {
@@ -19,7 +19,7 @@ export default class LoremUpdater extends AUpdater {
 		let {path, payload} = message;
 
 		switch (path) {
-			case 'lorem':
+			case "lorem":
 				loremStore.setLorem(payload.lorem);
 				break;
 
@@ -32,10 +32,10 @@ export default class LoremUpdater extends AUpdater {
 		this._config = config || _initialConfig();
 
 		ClientSocket.send({
-			type: 'subscribe',
-			target: 'lorem',
-			observe: 'lorems',
-			scope: 'one',
+			type: "subscribe",
+			target: "lorem",
+			observe: "lorems",
+			scope: "one",
 			config: {
 				query: this._config
 			}

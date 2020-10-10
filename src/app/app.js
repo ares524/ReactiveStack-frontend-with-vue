@@ -1,13 +1,13 @@
-import Header from './pages/header/Header.vue';
+import Header from "./pages/header/Header.vue";
 
 export default {
-	name: 'App',
+	name: "App",
 	components: {
 		Header
 	},
 	data() {
 		return {
-			property: 'Example property.'
+			property: "Example property."
 		}
 	}
 }

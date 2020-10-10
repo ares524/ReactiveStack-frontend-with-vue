@@ -1,4 +1,4 @@
-import {reactive} from 'vue';
+import {reactive} from "vue";
 import _ from "lodash";
 
 import AuthService from "@/_reactivestack/auth.service";
