@@ -17,7 +17,7 @@ export default {
 			return moment(date).format("YYYY/MM/DD HH:mm:ss");
 		},
 		async editLorem() {
-			const draftId = sendFetchGet("/api/draft/create/lorems/" + this.$store.selectedLorem._id);
+			const draftId = await sendFetchGet("/api/draft/create/lorems/" + this.$store.selectedLorem._id);
 			router.push("/lorem/" + draftId);
 		}
 	}
