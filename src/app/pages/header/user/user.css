@@ -1,4 +1,5 @@
-.FacebookButton, .GoogleButton {
+.FacebookButton,
+.GoogleButton {
 	color: #fff !important;
 	border: 1.5px solid #fff !important;
 	font-size: 7.5pt !important;
