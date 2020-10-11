@@ -82,8 +82,7 @@ export default class ClientSocket extends Subject {
 		return ClientSocket._instance;
 	}
 
-	static async register(socket) {
-		if (socket) ClientSocket._socket = socket;
+	static async register() {
 		if (!AuthService.loggedIn()) return;
 		await ClientSocket.send({type: "register", jwt: AuthService.jwt()});
 	}
