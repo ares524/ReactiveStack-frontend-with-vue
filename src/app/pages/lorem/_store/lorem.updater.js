@@ -5,7 +5,7 @@ import ClientSocket from "@/_reactivestack/client.socket";
 const _initialConfig = () => ({_id: null});
 
 export default class LoremUpdater extends AUpdater {
-	_path = "lorem";
+	_path = "draft";
 
 	constructor() {
 		super("LoremUpdater");
@@ -19,8 +19,8 @@ export default class LoremUpdater extends AUpdater {
 		let {path, payload} = message;
 
 		switch (path) {
-			case "lorem":
-				loremStore.setLorem(payload.lorem);
+			case "draft":
+				loremStore.setDraft(payload.draft);
 				break;
 
 			default:
@@ -33,8 +33,8 @@ export default class LoremUpdater extends AUpdater {
 
 		ClientSocket.send({
 			type: "subscribe",
-			target: "lorem",
-			observe: "lorems",
+			target: "draft",
+			observe: "drafts",
 			scope: "one",
 			config: {
 				query: this._config

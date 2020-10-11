@@ -13,7 +13,7 @@ import ClientSocket from "./_reactivestack/client.socket";
 
 const routes = [
 	{path: "/", component: Lorems, meta: {requiresAuth: true}},
-	{path: "/lorem/:loremId", component: Lorem, props: true},
+	{path: "/lorem/:draftId", component: Lorem, props: true},
 	{path: "/about", component: About},
 	{path: "/logout", component: Logout},
 	{path: "/login/facebook", component: Social},

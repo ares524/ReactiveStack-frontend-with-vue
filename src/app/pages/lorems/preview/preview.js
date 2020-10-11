@@ -19,7 +19,7 @@ export default {
 			return moment(date).format("YYYY/MM/DD HH:mm:ss");
 		},
 		async editLorem() {
-			const response = await fetch(VUE_APP_API_PATH + "/api/lorem/draft/" + this.$store.selectedLorem._id, {
+			const response = await fetch(VUE_APP_API_PATH + "/api/draft/create/lorems/" + this.$store.selectedLorem._id, {
 				method: "GET",
 				headers: AuthService.getAuthHeader()
 			});

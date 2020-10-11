@@ -16,7 +16,6 @@ export default class AUpdater {
 	constructor(name, config) {
 		if (!name) throw new Error("AUpdater::constructor error: Name is required.");
 		this._name = name;
-		console.log(this._name, "constructed.");
 
 		this._init(config)
 			.then(() => {
@@ -50,7 +49,7 @@ export default class AUpdater {
 				complete: () => console.log("completed")
 			});
 
-		this.setConfig(config);
+		if (config) this.setConfig(config);
 	}
 
 	_initialConfig() {

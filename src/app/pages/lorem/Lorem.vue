@@ -12,7 +12,7 @@
 						<td>
 							<input
 								name="firstname"
-								:value="$store.lorem.firstname"
+								:value="store.lorem.firstname"
 								@input="onChange"
 								class="editorField"
 								type="text"
@@ -23,7 +23,7 @@
 							&nbsp;
 							<input
 								name="lastname"
-								:value="$store.lorem.lastname"
+								:value="store.lorem.lastname"
 								@input="onChange"
 								class="editorField"
 								type="text"
@@ -38,7 +38,7 @@
 						<td>
 							<input
 								name="email"
-								:value="$store.lorem.email"
+								:value="store.lorem.email"
 								@input="onChange"
 								class="editorField"
 								type="text"
@@ -53,7 +53,7 @@
 						<td>
 							<select
 								name="species"
-								:value="$store.lorem.species"
+								:value="store.lorem.species"
 								@change="onChange"
 								class="editorField"
 								:disabled="isDisabled('species')"
@@ -70,7 +70,7 @@
 						<td>
 							<input
 								name="rating"
-								:value="$store.lorem.rating"
+								:value="store.lorem.rating"
 								@input="onChange"
 								class="editorField"
 								type="number"
@@ -85,7 +85,7 @@
 						<td>
 							<textarea
 								name="description"
-								:value="$store.lorem.description"
+								:value="store.lorem.description"
 								@input="onChange"
 								style="width: 413px; height: 150px"
 								:disabled="isDisabled('description')"
@@ -102,11 +102,9 @@
 		<div id="lorem-meta">
 			<p>
 				Draft created on
-				<b>{{ momentDate($store.lorem.createdAt) }}</b> using
-				<b>version {{ $store.lorem.iteration }}</b> of <b>{{ $store.lorem.username }}</b>.
-				<span v-show="$store.lorem.updatedAt"><br/>Last update at <b>{{
-						momentDate($store.lorem.updatedAt)
-					}}</b>.</span>
+				<b>{{ momentDate(store.lorem.createdAt) }}</b> using
+				<b>version {{ store.lorem.iteration }}</b> of <b>{{ store.lorem.username }}</b>.
+				<span v-show="store.draft.updatedAt"><br/>Last update at <b>{{ momentDate(store.lorem.updatedAt) }}</b>.</span>
 			</p>
 		</div>
 

@@ -1,3 +1,5 @@
+import {ref, computed, watch, onUnmounted} from "vue";
+
 import _ from "lodash";
 import moment from "moment";
 
@@ -6,112 +8,84 @@ import AuthService from "@/_reactivestack/auth.service";
 
 import {loremStore} from "./_store/lorem.store";
 import LoremUpdater from "./_store/lorem.updater";
+import {sendFetchGet, sendFetchPost} from "@/_reactivestack/_f.send.fetch";
 
 let updater;
-const VUE_APP_API_PATH = process.env.VUE_APP_API_PATH;
 
 export default {
 	name: "Lorem",
-	props: ["loremId"],
+	props: ["draftId"],
 
-	store: loremStore,
+	setup(props) {
+		let store = ref(loremStore);
 
-	setup() {
-		return {
-			SPECIES: ["Human", "Draenei", "Dryad", "Dwarf", "Gnome", "Worgde"]
+		if (AuthService.loggedIn()) {
+			if (updater) updater.destroy();
+			updater = new LoremUpdater();
+			updater.setConfig({_id: props.draftId});
 		}
-	},
 
-	methods: {
-		momentDate(date) {
-			return moment(date).format("YYYY/MM/DD HH:mm:ss");
-		},
-		isDisabled(fieldName) {
-			if (this.$store.lorem) {
-				let meta = this.$store.lorem.meta;
+		onUnmounted(() => {
+			store.value.reset();
+			if (updater) updater.destroy();
+			updater = null;
+		});
+
+		const isDisabled = (fieldName) => {
+			if (store.value.draft) {
+				let meta = store.value.draft.meta;
 				if (meta) {
 					let field = _.get(meta, fieldName);
 					if (field) {
 						let user = _.get(field, "user");
-						return user !== AuthService.user().id;
+						return user !== AuthService.userId();
 					}
 				}
 			}
 			return false;
-		},
-		onFocus(field) {
-			if (this.isDisabled(field)) return;
-			fetch(VUE_APP_API_PATH + "/api/lorem/focus/" + this.$store.lorem._id, {
-				method: "POST",
-				headers: AuthService.getAuthHeader(),
-				body: JSON.stringify({field})
-			});
-		},
-		onBlur(field) {
-			fetch(VUE_APP_API_PATH + "/api/lorem/blur/" + this.$store.lorem._id, {
-				method: "POST",
-				headers: AuthService.getAuthHeader(),
-				body: JSON.stringify({field})
-			});
-		},
-		onChange: _.throttle(function (e) {
-			let {target: {name: field, value}} = e;
-			this.$store.setValue(field, value);
+		};
 
-			fetch(VUE_APP_API_PATH + "/api/lorem/change/" + this.$store.lorem._id, {
-				method: "POST",
-				headers: AuthService.getAuthHeader(),
-				body: JSON.stringify({value, field})
-			});
-		}, 250, {"leading": true}),
+		const isDraft = computed(() => !_.isEmpty(store.value.draft));
 
-		async closeDialog() {
-			const response = await fetch(VUE_APP_API_PATH + "/api/lorem/cancel/" + this.$store.lorem._id, {
-				method: "POST",
-				headers: AuthService.getAuthHeader(),
-				body: JSON.stringify({})
-			});
-			const completed = await response.json();
-			if (completed) router.push("/");
-			else console.error(" - closeDialog response", completed);  	// oops...
-		},
-		async saveLorem() {
-			const response = await fetch(VUE_APP_API_PATH + "/api/lorem/save/", {
-				method: "POST",
-				headers: AuthService.getAuthHeader(),
-				body: JSON.stringify({document: this.$store.lorem})
-			});
-			const completed = await response.json();
-			if (completed) router.push("/");
-			else console.error(" - saveLorem response", completed);	// oops...
+		watch(isDraft, async (value) => {
+			if (value !== true) await router.push("/");
+		});
+
+		return {
+			store,
+
+			SPECIES: ["Human", "Draenei", "Dryad", "Dwarf", "Gnome", "Worgde"],
+
+			isDraft, isDisabled,
+
+			momentDate: (date) => moment(date).format("YYYY/MM/DD HH:mm:ss"),
+
+			onFocus: (field) => {
+				if (isDisabled(field)) return;
+				sendFetchPost("/api/draft/focus/" + store.value.draft._id, {field});
+			},
+
+			onBlur: (field) => {
+				sendFetchPost("/api/draft/blur/" + store.value.draft._id, {field});
+			},
+
+			onChange: _.throttle(function (e) {
+				let {target: {name: field, value}} = e;
+				store.value.setValue(field, value);
+				sendFetchPost("/api/draft/change/" + store.value.draft._id, {value, field});
+			}, 250, {"leading": true}),
+
+			closeDialog: async () => {
+				await sendFetchGet("/api/draft/cancel/" + store.value.draft._id);
+				// TODO: remove this and observe the data change!
+				router.push("/");
+			},
+
+			saveLorem: async () => {
+				await sendFetchGet("/api/draft/save/" + store.value.draft._id);
+				// TODO: remove this and observe the data change!
+				router.push("/");
+			},
 		}
-	},
-
-	computed: {
-		isDraft() {
-			return this.$store.lorem.isDraft;
-		}
-	},
-
-	watch: {
-		isDraft: function (value) {
-			if (value !== true) {
-				// TODO: goto homepage...
-			}
-		}
-	},
-
-	async beforeCreate() {
-		if (AuthService.loggedIn()) {
-			if (updater) updater.destroy();
-			updater = new LoremUpdater();
-			updater.setConfig({_id: this.$props.loremId});
-		}
-	},
-	beforeRouteLeave(to, from, next) {
-		this.$store.reset();
-		if (updater) updater.destroy();
-		updater = null;
-		next();
 	}
 }
