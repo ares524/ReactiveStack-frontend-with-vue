@@ -15,15 +15,11 @@ const STRING_COLUMNS = ["firstname", "lastname", "email", "description"];
 const NUMBER_COLUMNS = ["iteration", "rating"];
 
 export default class LoremsUpdater extends AUpdater {
-	static _SECTIONS = ["lorems", "selected", "selectedVersions"];
 
 	constructor() {
 		super("LoremsUpdater");
+		this._path = ["lorems", "selected", "selectedVersions"];
 		this.setConfig(_initialConfig());
-	}
-
-	_isMyPath(path) {
-		return _.includes(LoremsUpdater._SECTIONS, path);
 	}
 
 	_process(message) {

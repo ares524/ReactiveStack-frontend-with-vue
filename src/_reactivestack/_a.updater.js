@@ -25,7 +25,7 @@ export default class AUpdater {
 			.catch((err) => console.error(this._name, "initialization error", err));
 	}
 
-	_isMyPath(path) {
+	_isPathValid(path) {
 		return !!path;
 	}
 
@@ -41,7 +41,7 @@ export default class AUpdater {
 		this._subscription = clientSocket
 			.pipe(filter((message) => {
 				let {type, path} = message;
-				return "update" === type && this._isMyPath(path);
+				return "update" === type && this._isPathValid(path);
 			}))
 			.subscribe({
 				next: (message) => this._process(message),
@@ -50,10 +50,6 @@ export default class AUpdater {
 			});
 
 		if (config) this.setConfig(config);
-	}
-
-	_initialConfig() {
-		return {};
 	}
 
 	setConfig() {

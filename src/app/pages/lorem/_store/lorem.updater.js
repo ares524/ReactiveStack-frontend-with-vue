@@ -5,14 +5,10 @@ import ClientSocket from "@/_reactivestack/client.socket";
 const _initialConfig = () => ({_id: null});
 
 export default class LoremUpdater extends AUpdater {
-	_path = "draft";
 
 	constructor() {
 		super("LoremUpdater");
-	}
-
-	_isMyPath(path) {
-		return this._path === path;
+		this._path = 'draft';
 	}
 
 	_process(message) {
