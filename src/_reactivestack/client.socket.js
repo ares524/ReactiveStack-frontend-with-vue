@@ -87,6 +87,20 @@ export default class ClientSocket extends Subject {
 		await ClientSocket.send({type: "register", jwt: AuthService.jwt()});
 	}
 
+	static sendSubscribe(message) {
+		ClientSocket.send({
+			...message,
+			type: "subscribe"
+		});
+	}
+
+	static sendUnsubscribe(message) {
+		ClientSocket.send({
+			...message,
+			type: "unsubscribe"
+		});
+	}
+
 	static send(message) {
 		if (!message.id) message.id = uuidv4();
 		if (!ClientSocket._socket || ClientSocket._socket.readyState !== WebSocket.OPEN) {

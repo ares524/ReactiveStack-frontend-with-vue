@@ -21,12 +21,13 @@ export default {
 		},
 		selectRow(lorem) {
 			loremsStore.setSelectedLorem(lorem);   // optimistic update !!!
-			ClientSocket.send({
-				type: "config",
+
+			ClientSocket.sendSubscribe({
+				target: "selected",
+				observe: "lorems",
+				scope: "one",
 				config: {
-					selected: {
-						query: {_id: lorem._id}
-					}
+					query: {_id: lorem._id}
 				}
 			});
 		}

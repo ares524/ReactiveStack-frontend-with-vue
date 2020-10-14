@@ -31,8 +31,7 @@ export default class LoremUpdater extends AUpdater {
 	setConfig(config) {
 		this._config = config || _initialConfig();
 
-		ClientSocket.send({
-			type: "subscribe",
+		ClientSocket.sendSubscribe({
 			target: "draft",
 			observe: "drafts",
 			scope: "one",
