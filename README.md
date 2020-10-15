@@ -1,6 +1,6 @@
 ## ReactiveStack frontend with vue
 
-See [reactive-stack](https://github.com/cope/reactive-stack) for more info.
+See [reactive-stack-js](https://github.com/reactive-stack-js) for more info.
 
 ## Project setup
 ```shellsession

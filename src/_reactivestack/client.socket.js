@@ -30,7 +30,6 @@ export default class ClientSocket extends Subject {
 	static _onOpen = async (e) => {
 		console.log("[WS] Connection open.");
 		ClientSocket._socket = e.target;
-		// await ClientSocket.register(e.target);
 		await ClientSocket.location(_path());
 
 		_.each(this._queue, ClientSocket.send);

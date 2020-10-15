@@ -9,7 +9,7 @@
 			<a href="//vuejs.org" target="_blank" rel="noopener noreferrer">Vue</a>
 		</span>
 		<span class="github">
-			(<a href="//github.com/cope/reactive-stack/tree/master/frontend-svelte" target="_blank" rel="noopener noreferrer">github</a>)
+			(<a href="//github.com/reactive-stack-js/reactive-stack-js-rest-frontend-vue" target="_blank" rel="noopener noreferrer">github</a>)
 		</span>
 	</h1>
 </template>

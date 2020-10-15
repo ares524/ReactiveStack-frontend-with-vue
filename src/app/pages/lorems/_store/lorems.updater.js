@@ -18,14 +18,14 @@ export default class LoremsUpdater extends AUpdater {
 
 	constructor() {
 		super("LoremsUpdater");
-		this._path = ["lorems", "selected", "selectedVersions"];
+		this._targets = ["lorems", "selected", "selectedVersions"];
 		this.setConfig(_initialConfig());
 	}
 
 	_process(message) {
-		let {path, payload} = message;
+		let {target, payload} = message;
 
-		switch (path) {
+		switch (target) {
 			case "lorems":
 				loremsStore.setLorems(payload.lorems);
 				loremsStore.setLoremsTotalCount(payload._loremsCount);
