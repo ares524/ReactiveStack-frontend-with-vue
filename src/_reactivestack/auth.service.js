@@ -63,7 +63,7 @@ class AuthService {
 		if (!!user && !!jwt) {
 			localStorage.setItem("userInfo", JSON.stringify({user, jwt}));
 			this.sendState({user, jwt});
-			ClientSocket.register();
+			ClientSocket.authenticate();
 		} else {
 			this.logout();
 		}

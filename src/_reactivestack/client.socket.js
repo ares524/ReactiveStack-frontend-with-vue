@@ -46,7 +46,7 @@ export default class ClientSocket extends Subject {
 		switch (message.type) {
 			case "socketId":
 				ClientSocket._socket.id = message.socketId;
-				await ClientSocket.register();
+				await ClientSocket.authenticate();
 				return;
 
 			case "refresh":
@@ -81,9 +81,9 @@ export default class ClientSocket extends Subject {
 		return ClientSocket._instance;
 	}
 
-	static async register() {
+	static async authenticate() {
 		if (!AuthService.loggedIn()) return;
-		await ClientSocket.send({type: "register", jwt: AuthService.jwt()});
+		await ClientSocket.send({type: "authenticate", jwt: AuthService.jwt()});
 	}
 
 	static sendSubscribe(message) {
