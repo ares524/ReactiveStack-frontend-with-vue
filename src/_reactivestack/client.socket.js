@@ -5,7 +5,7 @@ import ReconnectingWebSocket from 'reconnecting-websocket';
 
 import AuthService from './auth.service';
 
-const WS_URI = 'ws:' + process.env.VUE_APP_API_PATH + '/ws';
+const WS_URI = process.env.VUE_APP_WS_URI;
 
 const _path = () => {
 	let path = _.trim(_.get(window, 'location.pathname', ''));
