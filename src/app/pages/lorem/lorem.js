@@ -6,7 +6,6 @@ import moment from 'moment';
 import router from '@/router';
 import AuthService from '@/_reactivestack/auth.service';
 import LocalStore from '@/_reactivestack/store/local.store';
-import StoreTargets from '@/_reactivestack/store/store.targets';
 import {sendGet, sendPost} from '@/_reactivestack/_f.send.fetch';
 
 export default {
@@ -14,15 +13,14 @@ export default {
 	props: ['draftId'],
 
 	setup(props) {
-		const storeTargets = new StoreTargets();
-		storeTargets.addTarget('draft', 'drafts', {});
-
-		LocalStore.init(storeTargets) //
+		LocalStore.init() //
 			.then(() => {
 				if (AuthService.loggedIn()) {
 					LocalStore.sendSubscribe('draft', {_id: props.draftId});
 				}
 			});
+		LocalStore.addTarget('draft', 'drafts', {});
+
 		const store = ref(LocalStore.getStore());
 
 		onMounted(() => console.log('lorem onMounted'));

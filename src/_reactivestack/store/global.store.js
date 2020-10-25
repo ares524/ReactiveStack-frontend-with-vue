@@ -9,6 +9,10 @@ export default class GlobalStore {
 		return GlobalStore._instance;
 	}
 
+	static addTarget(name, collection, initial) {
+		LocalStore._instance.addTarget(name, collection, initial);
+	}
+
 	static sendSubscribe(target, config) {
 		GlobalStore._instance.sendSubscribe(target, config);
 	}

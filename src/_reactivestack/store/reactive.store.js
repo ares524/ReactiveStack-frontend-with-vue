@@ -17,6 +17,7 @@ export default class ReactiveStore {
 
 	constructor(name) {
 		this._name = name;
+		this._targets = {};
 	}
 
 	sendSubscribe(target, config) {
@@ -30,31 +31,20 @@ export default class ReactiveStore {
 		ClientSocket.sendUnsubscribe({target});
 	}
 
-	// TODO: refactor
-	async init(storeTargets) {
+	addTarget(name, collection, initial) {
+		if (_.includes(_.keys(this._targets), name)) throw new Error(`Target ${name} already exists!`);
+		const target = {observe: collection, initial};
+		target.scope = _.isArray(initial) ? 'many' : 'one';
+
+		_.set(this._targets, name, target);
+		_.set(this._store, name, initial);
+		if (_.isArray(initial)) _.set(this._store, name + 'Count', 0);
+	}
+
+	async init() {
+		this._targets = {};
+		this._store = reactive({});
 		if (this._subscription) this.destroy();
-
-		const targets = storeTargets.targets;
-		if (!_.isPlainObject(targets)) {
-			throw new Error('Invalid targets! Expected plain object with attributes and initial values.');
-		}
-		this._targets = targets;
-
-		const targetKeys = _.keys(this._targets);
-		_.each(targetKeys, (key) => {
-			const initial = _.get(this._targets, key + '.initial', false);
-			_.set(this._targets, key + '.scope', 'one');
-			if (_.isArray(initial)) _.set(this._targets, key + '.scope', 'many');
-		});
-
-		this._store = null;
-		const store = {};
-		_.each(this._targets, (value, key) => {
-			const {initial} = value;
-			_.set(store, key, initial);
-			if (_.isArray(initial)) _.set(store, key + 'Count', 0);
-		});
-		this._store = reactive(store);
 
 		let clientSocket = await ClientSocket.init();
 		this._subscription = clientSocket //

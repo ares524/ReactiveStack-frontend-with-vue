@@ -8,7 +8,6 @@ import Controls from './controls/Controls.vue';
 
 import AuthService from '@/_reactivestack/auth.service';
 import LocalStore from '@/_reactivestack/store/local.store';
-import StoreTargets from '@/_reactivestack/store/store.targets';
 import gridSearchConfigFactory from '@/_reactivestack/_f.grid.search.config.factory';
 
 const _toggleSortingHelper = (sorting, label) => {
@@ -39,17 +38,16 @@ export default {
 	components: {Controls, Preview},
 
 	setup() {
-		const storeTargets = new StoreTargets();
-		storeTargets.addTarget('lorems', 'lorems', []);
-		storeTargets.addTarget('selectedLorem', 'lorems', {});
-		storeTargets.addTarget('selectedLoremVersions', 'lorems', []);
-
-		LocalStore.init(storeTargets) //
+		LocalStore.init() //
 			.then(() => {
 				if (AuthService.loggedIn()) {
 					LocalStore.sendSubscribe('lorems', gridSearchConfigFactory(COLUMNS));
 				}
 			});
+		LocalStore.addTarget('lorems', 'lorems', []);
+		LocalStore.addTarget('selectedLorem', 'lorems', {});
+		LocalStore.addTarget('selectedLoremVersions', 'lorems', []);
+
 		const store = ref(LocalStore.getStore());
 
 		onMounted(() => console.log('lorems onMounted'));

@@ -1,5 +1,4 @@
 import Header from './pages/header/Header.vue';
-import StoreTargets from '@/_reactivestack/store/store.targets';
 import GlobalStore from '@/_reactivestack/store/global.store';
 
 export default {
@@ -7,12 +6,11 @@ export default {
 	components: {Header},
 
 	setup() {
-		const storeTargets = new StoreTargets();
-
-		// TODO:
-		GlobalStore.init(storeTargets).then(() => {
+		GlobalStore.init().then(() => {
 			// sendSubscribe...target, config
 		});
+		// GlobalStore.addTarget('some_name', 'some_collection', []);
+		// const store = ref(GlobalStore.getStore());
 
 		return {};
 	}

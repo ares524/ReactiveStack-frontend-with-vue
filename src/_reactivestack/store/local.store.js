@@ -9,6 +9,10 @@ export default class LocalStore {
 		return LocalStore._instance;
 	}
 
+	static addTarget(name, collection, initial) {
+		LocalStore._instance.addTarget(name, collection, initial);
+	}
+
 	static sendSubscribe(target, config) {
 		LocalStore._instance.sendSubscribe(target, config);
 	}
