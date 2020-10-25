@@ -7,7 +7,7 @@ export default {
 
 	setup() {
 		GlobalStore.init().then(() => {
-			// sendSubscribe...target, config
+			// updateSubscription...target, config
 		});
 		// GlobalStore.addTarget('some_name', 'some_collection', []);
 		// const store = ref(GlobalStore.getStore());

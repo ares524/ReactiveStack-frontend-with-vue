@@ -41,7 +41,7 @@ export default {
 		LocalStore.init() //
 			.then(() => {
 				if (AuthService.loggedIn()) {
-					LocalStore.sendSubscribe('lorems', gridSearchConfigFactory(COLUMNS));
+					LocalStore.updateSubscription('lorems', gridSearchConfigFactory(COLUMNS));
 				}
 			});
 		LocalStore.addTarget('lorems', 'lorems', []);
@@ -65,7 +65,7 @@ export default {
 				search: search.value,
 				sort: sort.value
 			});
-			LocalStore.sendSubscribe('lorems', config);
+			LocalStore.updateSubscription('lorems', config);
 		};
 
 		const _isSelected = (lorem) =>
@@ -74,22 +74,22 @@ export default {
 		const _unselect = () => {
 			store.value.selectedLorem = {};
 			store.value.selectedLoremVersions = [];
-			LocalStore.sendUnsubscribe('selected');
-			LocalStore.sendUnsubscribe('selectedLoremVersions');
+			LocalStore.closeSubscription('selected');
+			LocalStore.closeSubscription('selectedLoremVersions');
 		};
 
 		const _select = (lorem) => {
 			store.value.selectedLorem = lorem;
 			store.value.selectedLoremVersions = [];
 
-			LocalStore.sendSubscribe('selectedLorem', {
+			LocalStore.updateSubscription('selectedLorem', {
 				query: {
 					itemId: lorem.itemId,
 					isLatest: true
 				}
 			});
 
-			LocalStore.sendSubscribe('selectedLoremVersions', {
+			LocalStore.updateSubscription('selectedLoremVersions', {
 				query: {itemId: lorem.itemId},
 				sort: {iteration: -1}
 			});

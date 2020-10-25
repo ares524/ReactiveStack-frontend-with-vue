@@ -16,7 +16,7 @@ export default {
 		LocalStore.init() //
 			.then(() => {
 				if (AuthService.loggedIn()) {
-					LocalStore.sendSubscribe('draft', {_id: props.draftId});
+					LocalStore.updateSubscription('draft', {_id: props.draftId});
 				}
 			});
 		LocalStore.addTarget('draft', 'drafts', {});

@@ -10,15 +10,19 @@ export default class GlobalStore {
 	}
 
 	static addTarget(name, collection, initial) {
-		LocalStore._instance.addTarget(name, collection, initial);
+		GlobalStore._instance.addTarget(name, collection, initial);
 	}
 
-	static sendSubscribe(target, config) {
-		GlobalStore._instance.sendSubscribe(target, config);
+	static removeTarget(name) {
+		GlobalStore._instance.removeTarget(name);
 	}
 
-	static sendUnsubscribe(target) {
-		GlobalStore._instance.sendUnsubscribe(target);
+	static updateSubscription(target, config) {
+		GlobalStore._instance.updateSubscription(target, config);
+	}
+
+	static closeSubscription(target) {
+		GlobalStore._instance.closeSubscription(target);
 	}
 
 	static getStore() {

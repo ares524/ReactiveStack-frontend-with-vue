@@ -20,7 +20,7 @@ export default {
 			momentDate: (date) => moment(date).format('YYYY/MM/DD HH:mm:ss'),
 			selectRow: (lorem) => {
 				store.value.selectedLorem = lorem;
-				LocalStore.sendSubscribe('selectedLorem', {
+				LocalStore.updateSubscription('selectedLorem', {
 					query: {_id: lorem._id}
 				});
 			}

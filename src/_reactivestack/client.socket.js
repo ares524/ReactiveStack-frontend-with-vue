@@ -92,14 +92,14 @@ export default class ClientSocket extends Subject {
 		await ClientSocket.send({type: 'authenticate', jwt: AuthService.jwt()});
 	}
 
-	static sendSubscribe(message) {
+	static updateSubscription(message) {
 		ClientSocket.send({
 			...message,
 			type: 'subscribe'
 		});
 	}
 
-	static sendUnsubscribe(message) {
+	static closeSubscription(message) {
 		ClientSocket.send({
 			...message,
 			type: 'unsubscribe'
