@@ -12,7 +12,7 @@ const _fixUrl = (url) => {
 	return url;
 };
 
-export const sendFetchGet = async (url) => {
+export const sendGet = async (url) => {
 	url = _fixUrl(url);
 	const response = await fetch(url, {
 		method: "GET",
@@ -21,7 +21,7 @@ export const sendFetchGet = async (url) => {
 	return await response.json();
 }
 
-export const sendFetchPost = async (url, bodyObject) => {
+export const sendPost = async (url, bodyObject) => {
 	url = _fixUrl(url);
 	return fetch(url, {
 		method: "POST",

@@ -1,35 +1,33 @@
-import {ref, computed, watch, onUnmounted} from "vue";
+import {ref, computed, watch, onMounted, onUnmounted} from "vue";
 
 import _ from "lodash";
 import moment from "moment";
 
 import router from "@/router";
 import AuthService from "@/_reactivestack/auth.service";
-
-import {loremStore} from "./_store/lorem.store";
-import LoremUpdater from "./_store/lorem.updater";
-import {sendFetchGet, sendFetchPost} from "@/_reactivestack/_f.send.fetch";
-
-let updater;
+import LocalStore from "@/_reactivestack/store/local.store";
+import StoreTargets from "@/_reactivestack/store/store.targets";
+import {sendGet, sendPost} from "@/_reactivestack/_f.send.fetch";
 
 export default {
 	name: "Lorem",
 	props: ["draftId"],
 
 	setup(props) {
-		let store = ref(loremStore);
+		const storeTargets = new StoreTargets();
+		storeTargets.addTarget('draft', 'drafts', {});
 
-		if (AuthService.loggedIn()) {
-			if (updater) updater.destroy();
-			updater = new LoremUpdater();
-			updater.setConfig({_id: props.draftId});
-		}
+		LocalStore
+			.init(storeTargets)
+			.then(() => {
+				if (AuthService.loggedIn()) {
+					LocalStore.sendSubscribe('draft', {_id: props.draftId});
+				}
+			});
+		const store = ref(LocalStore.getStore());
 
-		onUnmounted(() => {
-			store.value.reset();
-			if (updater) updater.destroy();
-			updater = null;
-		});
+		onMounted(() => console.log('lorem onMounted'));
+		onUnmounted(() => console.log('lorem onUnmounted'));
 
 		const isDisabled = (fieldName) => {
 			if (store.value.draft) {
@@ -54,6 +52,8 @@ export default {
 		return {
 			store,
 
+			notLoaded: () => !_.get(store.value, 'draft.document', false),
+
 			SPECIES: ["Human", "Draenei", "Dryad", "Dwarf", "Gnome", "Worgde"],
 
 			isDraft, isDisabled,
@@ -62,27 +62,27 @@ export default {
 
 			onFocus: (field) => {
 				if (isDisabled(field)) return;
-				sendFetchPost("/api/draft/focus/" + store.value.draft._id, {field});
+				sendPost("/api/draft/focus/" + store.value.draft._id, {field});
 			},
 
 			onBlur: (field) => {
-				sendFetchPost("/api/draft/blur/" + store.value.draft._id, {field});
+				sendPost("/api/draft/blur/" + store.value.draft._id, {field});
 			},
 
 			onChange: _.throttle(function (e) {
 				let {target: {name: field, value}} = e;
 				store.value.setValue(field, value);
-				sendFetchPost("/api/draft/change/" + store.value.draft._id, {value, field});
+				sendPost("/api/draft/change/" + store.value.draft._id, {value, field});
 			}, 250, {"leading": true}),
 
 			closeDialog: async () => {
-				await sendFetchGet("/api/draft/cancel/" + store.value.draft._id);
+				await sendGet("/api/draft/cancel/" + store.value.draft._id);
 				// TODO: remove this and observe the data change!
 				router.push("/");
 			},
 
 			saveLorem: async () => {
-				await sendFetchGet("/api/draft/save/" + store.value.draft._id);
+				await sendGet("/api/draft/save/" + store.value.draft._id);
 				// TODO: remove this and observe the data change!
 				router.push("/");
 			},

@@ -1,35 +1,26 @@
-// import _ from "lodash";
+import {ref} from "vue";
+
 import _ from "lodash";
 import moment from "moment";
 
-import ClientSocket from "@/_reactivestack/client.socket";
-
-import {loremsStore} from "@/app/pages/lorems/_store/lorems.store";
+import LocalStore from "@/_reactivestack/store/local.store";
 
 export default {
 	name: "PreviewVersions",
-	store: loremsStore,
-	methods: {
-		getVersions() {     // this is weird, but... apparently when empty it returns {0: undefined}
-			return _.isEmpty(this.$store.selectedLoremVersions[0]) ? [] : this.$store.selectedLoremVersions;
-		},
-		getRowClass(lorem) {
-			return loremsStore.selectedLorem && lorem && lorem._id === loremsStore.selectedLorem._id ? "active" : "";
-		},
-		momentDate(date) {
-			return moment(date).format("YYYY/MM/DD HH:mm:ss");
-		},
-		selectRow(lorem) {
-			loremsStore.setSelectedLorem(lorem);   // optimistic update !!!
+	setup() {
+		const store = ref(LocalStore.getStore());
 
-			ClientSocket.sendSubscribe({
-				target: "selected",
-				observe: "lorems",
-				scope: "one",
-				config: {
-					query: {_id: lorem._id}
-				}
-			});
+		const isSelected = (lorem) => _.get(lorem, '_id', 1) === _.get(store.value.selectedLorem, '_id', 2);
+
+		return {
+			store, isSelected,
+			getVersions: () => store.value.selectedLoremVersions,
+			getRowClass: (lorem) => isSelected(lorem) ? "active" : "",
+			momentDate: (date) => moment(date).format("YYYY/MM/DD HH:mm:ss"),
+			selectRow: (lorem) => {
+				store.value.selectedLorem = lorem;
+				LocalStore.sendSubscribe("selectedLorem", {query: {_id: lorem._id}});
+			}
 		}
 	}
 }

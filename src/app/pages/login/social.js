@@ -1,8 +1,8 @@
 import _ from "lodash";
+import {v4 as uuidv4} from 'uuid';
 import queryString from "query-string";
 
 import router from "@/router";
-import uuidv4 from "@/_reactivestack/_f.uuidv4";
 import AuthService from "@/_reactivestack/auth.service";
 
 const VUE_APP_API_PATH = process.env.VUE_APP_API_PATH;

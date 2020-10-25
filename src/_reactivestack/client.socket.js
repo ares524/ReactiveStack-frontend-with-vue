@@ -1,12 +1,11 @@
 import _ from "lodash";
 import {Subject} from "rxjs";
+import {v4 as uuidv4} from "uuid";
 import ReconnectingWebSocket from "reconnecting-websocket";
 
-import uuidv4 from "./_f.uuidv4";
 import AuthService from "./auth.service";
 
-// TODO: should depend on environment...
-const WS_URI = "ws://localhost:3003/ws";
+const WS_URI = 'ws:' + process.env.VUE_APP_API_PATH + '/ws';
 
 const _path = () => {
 	let path = _.trim(_.get(window, "location.pathname", ""));
@@ -32,15 +31,15 @@ export default class ClientSocket extends Subject {
 		ClientSocket._socket = e.target;
 		await ClientSocket.location(_path());
 
-		_.each(this._queue, ClientSocket.send);
-		this._queue = [];
+		_.each(ClientSocket._queue, ClientSocket.send);
+		ClientSocket._queue = [];
 	};
 
 	static _onMessage = async (e) => {
 		let {data: message} = e;
 		message = JSON.parse(message);
 		// console.log("[WS] Message received from server:", ClientSocket._socket.id, _.omit(message, "payload"), AuthService.loggedIn());
-		console.log("[WS] Server message:", AuthService.loggedIn(), ClientSocket._socket.id, message.type, message.path, message.payload);
+		console.log("[WS] Server message:", AuthService.loggedIn(), ClientSocket._socket.id, message.type, message.target, message.payload);
 
 		let {payload} = message;
 		switch (message.type) {
@@ -55,7 +54,7 @@ export default class ClientSocket extends Subject {
 
 			case "update":
 				if (!AuthService.loggedIn()) return;
-				this._instance.next(message);
+				ClientSocket._instance.next(message);
 				return;
 
 			default:
@@ -63,7 +62,7 @@ export default class ClientSocket extends Subject {
 		}
 	};
 
-	static _connect = async () => {
+	static _connect = () => {
 		console.log("[WS] Connecting...");
 		ClientSocket._socket = new ReconnectingWebSocket(WS_URI);
 
@@ -73,10 +72,10 @@ export default class ClientSocket extends Subject {
 		ClientSocket._socket.onmessage = ClientSocket._onMessage;
 	};
 
-	static async init() {
+	static init() {
 		if (!ClientSocket._instance) {
 			ClientSocket._instance = new ClientSocket();
-			await ClientSocket._connect();
+			ClientSocket._connect();
 		}
 		return ClientSocket._instance;
 	}
@@ -103,7 +102,7 @@ export default class ClientSocket extends Subject {
 	static send(message) {
 		if (!message.id) message.id = uuidv4();
 		if (!ClientSocket._socket || ClientSocket._socket.readyState !== WebSocket.OPEN) {
-			this._queue.push(message);
+			ClientSocket._queue.push(message);
 			return;
 		}
 

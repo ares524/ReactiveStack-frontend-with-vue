@@ -2,7 +2,8 @@
 <script src="./lorem.js"></script>
 
 <template>
-	<div id="lorem-component">
+	<p v-if="notLoaded()">Loading...</p>
+	<div v-else id="lorem-component">
 		<div id="lorem-form">
 			<form class="form">
 				<table width="100%" cellSpacing="0" cellPadding="10">
@@ -12,7 +13,7 @@
 						<td>
 							<input
 								name="firstname"
-								:value="store.lorem.firstname"
+								:value="store.draft.document.firstname"
 								@input="onChange"
 								class="editorField"
 								type="text"
@@ -23,7 +24,7 @@
 							&nbsp;
 							<input
 								name="lastname"
-								:value="store.lorem.lastname"
+								:value="store.draft.document.lastname"
 								@input="onChange"
 								class="editorField"
 								type="text"
@@ -38,7 +39,7 @@
 						<td>
 							<input
 								name="email"
-								:value="store.lorem.email"
+								:value="store.draft.document.email"
 								@input="onChange"
 								class="editorField"
 								type="text"
@@ -53,7 +54,7 @@
 						<td>
 							<select
 								name="species"
-								:value="store.lorem.species"
+								:value="store.draft.document.species"
 								@change="onChange"
 								class="editorField"
 								:disabled="isDisabled('species')"
@@ -70,7 +71,7 @@
 						<td>
 							<input
 								name="rating"
-								:value="store.lorem.rating"
+								:value="store.draft.document.rating"
 								@input="onChange"
 								class="editorField"
 								type="number"
@@ -85,7 +86,7 @@
 						<td>
 							<textarea
 								name="description"
-								:value="store.lorem.description"
+								:value="store.draft.document.description"
 								@input="onChange"
 								style="width: 413px; height: 150px"
 								:disabled="isDisabled('description')"
@@ -102,9 +103,9 @@
 		<div id="lorem-meta">
 			<p>
 				Draft created on
-				<b>{{ momentDate(store.lorem.createdAt) }}</b> using
-				<b>version {{ store.lorem.iteration }}</b> of <b>{{ store.lorem.username }}</b>.
-				<span v-show="store.draft.updatedAt"><br/>Last update at <b>{{ momentDate(store.lorem.updatedAt) }}</b>.</span>
+				<b>{{ momentDate(store.draft.document.createdAt) }}</b> using
+				<b>version {{ store.draft.document.iteration }}</b> of <b>{{ store.draft.document.username }}</b>.
+				<span v-show="store.draft.updatedAt"><br/>Last update at <b>{{ momentDate(store.draft.updatedAt) }}</b>.</span>
 			</p>
 		</div>
 

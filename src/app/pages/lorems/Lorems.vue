@@ -38,7 +38,7 @@
 				</thead>
 
 				<tbody>
-				<tr v-for="(lorem, index) in $store.lorems" @click="selectRow(lorem)" :class="getRowClass(lorem)" :key="index">
+				<tr v-for="(lorem, index) in store.lorems" @click="selectRow(lorem)" :class="getRowClass(lorem)" :key="index">
 					<td>{{ ((this.page - 1) * this.pageSize) + index + 1 }}</td>
 					<td>{{ lorem.iteration }}</td>
 					<td>{{ lorem.firstname }} {{ lorem.lastname }}</td>
