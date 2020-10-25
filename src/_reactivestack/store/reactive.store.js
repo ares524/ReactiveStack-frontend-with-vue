@@ -1,13 +1,13 @@
-import _ from "lodash";
-import {reactive} from "vue";
-import {filter} from "rxjs/operators";
+import _ from 'lodash';
+import {reactive} from 'vue';
+import {filter} from 'rxjs/operators';
 
-import ClientSocket from "../client.socket";
+import ClientSocket from '../client.socket';
 
 const _isValidMessage = (targets, message) => {
 	const {type, target} = message;
-	return "update" === type && _.includes(_.keys(targets), target);
-}
+	return 'update' === type && _.includes(_.keys(targets), target);
+};
 
 export default class ReactiveStore {
 	_name;
@@ -35,7 +35,9 @@ export default class ReactiveStore {
 		if (this._subscription) this.destroy();
 
 		const targets = storeTargets.targets;
-		if (!_.isPlainObject(targets)) throw new Error("Invalid targets! Expected plain object with attributes and initial values.");
+		if (!_.isPlainObject(targets)) {
+			throw new Error('Invalid targets! Expected plain object with attributes and initial values.');
+		}
 		this._targets = targets;
 
 		const targetKeys = _.keys(this._targets);
@@ -55,12 +57,12 @@ export default class ReactiveStore {
 		this._store = reactive(store);
 
 		let clientSocket = await ClientSocket.init();
-		this._subscription = clientSocket
+		this._subscription = clientSocket //
 			.pipe(filter((message) => _isValidMessage(this._targets, message)))
 			.subscribe({
 				next: (message) => this._process(message),
-				error: (err) => console.log("error", err),
-				complete: () => console.log("completed")
+				error: (err) => console.log('error', err),
+				complete: () => console.log('completed')
 			});
 		console.log(this._name, 'initialized.');
 
@@ -86,5 +88,4 @@ export default class ReactiveStore {
 		_.set(this._store, target, payload[target]);
 		if (scope === 'many') _.set(this._store, target + 'Count', payload['_' + target + 'Count']);
 	}
-
 }

@@ -1,10 +1,10 @@
-import _ from "lodash";
+import _ from 'lodash';
 
 const _getCleanColumnNames = (columns, type) => {
 	let clean = _.pickBy(columns, (v, k) => _.includes(v, type));
 	clean = _.map(clean, (v, k) => k);
 	return clean;
-}
+};
 
 // TODO: add dates/ranges
 const orFilterFactory = (search, columns) => {

@@ -1,4 +1,4 @@
-import ReactiveStore from "@/_reactivestack/store/reactive.store";
+import ReactiveStore from '@/_reactivestack/store/reactive.store';
 
 export default class LocalStore {
 	static _instance;
@@ -24,5 +24,4 @@ export default class LocalStore {
 	static destroy() {
 		LocalStore._instance.destroy();
 	}
-
 }

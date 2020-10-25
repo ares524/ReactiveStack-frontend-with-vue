@@ -1,4 +1,4 @@
-import ReactiveStore from "@/_reactivestack/store/reactive.store";
+import ReactiveStore from '@/_reactivestack/store/reactive.store';
 
 export default class GlobalStore {
 	static _instance;
@@ -24,5 +24,4 @@ export default class GlobalStore {
 	static destroy() {
 		GlobalStore._instance.destroy();
 	}
-
 }

@@ -8,6 +8,7 @@
 		"serve": "vue-cli-service serve --port 3006 --open",
 		"build": "vue-cli-service build",
 		"lint": "vue-cli-service lint",
+		"format": "prettier --write \"src/**/*.js\"",
 		"start": "npm run serve",
 		"last": "yarn upgrade-interactive --latest",
 		"up": "yarn upgrade-interactive"
@@ -35,7 +36,8 @@
 		"@vue/compiler-sfc": "^3.0.0",
 		"babel-eslint": "^10.1.0",
 		"eslint": "^7.9.0",
-		"eslint-plugin-vue": "^7.0.0-0"
+		"eslint-plugin-vue": "^7.0.0-0",
+		"prettier": "^2.1.2"
 	},
 	"eslintConfig": {
 		"root": true,

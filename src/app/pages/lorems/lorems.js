@@ -1,14 +1,14 @@
 import {ref, onMounted, onUnmounted} from 'vue';
 
-import _ from "lodash";
-import moment from "moment";
+import _ from 'lodash';
+import moment from 'moment';
 
-import Preview from "./preview/Preview.vue";
-import Controls from "./controls/Controls.vue";
+import Preview from './preview/Preview.vue';
+import Controls from './controls/Controls.vue';
 
 import AuthService from '@/_reactivestack/auth.service';
 import LocalStore from '@/_reactivestack/store/local.store';
-import StoreTargets from "@/_reactivestack/store/store.targets";
+import StoreTargets from '@/_reactivestack/store/store.targets';
 import gridSearchConfigFactory from '@/_reactivestack/_f.grid.search.config.factory';
 
 const _toggleSortingHelper = (sorting, label) => {
@@ -31,11 +31,11 @@ const COLUMNS = {
 	description: {type: 'string'},
 	species: {type: 'string'},
 	iteration: {type: 'number'},
-	rating: {type: 'number'},
+	rating: {type: 'number'}
 };
 
 export default {
-	name: "Lorems",
+	name: 'Lorems',
 	components: {Controls, Preview},
 
 	setup() {
@@ -44,7 +44,7 @@ export default {
 		storeTargets.addTarget('selectedLorem', 'lorems', {});
 		storeTargets.addTarget('selectedLoremVersions', 'lorems', []);
 
-		LocalStore.init(storeTargets)
+		LocalStore.init(storeTargets) //
 			.then(() => {
 				if (AuthService.loggedIn()) {
 					LocalStore.sendSubscribe('lorems', gridSearchConfigFactory(COLUMNS));
@@ -65,12 +65,13 @@ export default {
 				page: page.value,
 				pageSize: pageSize.value,
 				search: search.value,
-				sort: sort.value,
+				sort: sort.value
 			});
 			LocalStore.sendSubscribe('lorems', config);
 		};
 
-		const _isSelected = (lorem) => !_.isEmpty(store.value.selectedLorem) && lorem.itemId === store.value.selectedLorem.itemId;
+		const _isSelected = (lorem) =>
+			!_.isEmpty(store.value.selectedLorem) && lorem.itemId === store.value.selectedLorem.itemId;
 
 		const _unselect = () => {
 			store.value.selectedLorem = {};
@@ -86,23 +87,26 @@ export default {
 			LocalStore.sendSubscribe('selectedLorem', {
 				query: {
 					itemId: lorem.itemId,
-					isLatest: true,
-				},
+					isLatest: true
+				}
 			});
 
 			LocalStore.sendSubscribe('selectedLoremVersions', {
 				query: {itemId: lorem.itemId},
-				sort: {iteration: -1},
+				sort: {iteration: -1}
 			});
 		};
 
 		return {
 			store,
-			page, pageSize, search, sort,
+			page,
+			pageSize,
+			search,
+			sort,
 
-			getRowClass: (lorem) => _isSelected(lorem) ? 'active' : '',
+			getRowClass: (lorem) => (_isSelected(lorem) ? 'active' : ''),
 			hasSelected: () => !_.isEmpty(store.value.selectedLorem),
-			truncate: (text) => _.truncate(text, {'length': 75, 'separator': ' '}),
+			truncate: (text) => _.truncate(text, {length: 75, separator: ' '}),
 			momentDate: (date) => moment(date).format('YYYY/MM/DD HH:mm:ss'),
 
 			getIcon: (label) => {
@@ -112,16 +116,20 @@ export default {
 				return 'fa fa-blank icon';
 			},
 
-			resendConfig: _.throttle(function (controls) {
-				_unselect();
+			resendConfig: _.throttle(
+				function (controls) {
+					_unselect();
 
-				let {page: pageValue, pageSize: pageSizeValue, search: searchValue} = controls;
-				page.value = pageValue;
-				pageSize.value = pageSizeValue;
-				search.value = searchValue;
+					let {page: pageValue, pageSize: pageSizeValue, search: searchValue} = controls;
+					page.value = pageValue;
+					pageSize.value = pageSizeValue;
+					search.value = searchValue;
 
-				_setConfig();
-			}, 100, {'leading': true, 'trailing': true}),
+					_setConfig();
+				},
+				100,
+				{leading: true, trailing: true}
+			),
 
 			selectRow: (lorem) => {
 				if (_isSelected(lorem)) _unselect();
@@ -146,7 +154,7 @@ export default {
 				sort.value = sorting;
 
 				_setConfig();
-			},
+			}
 		};
-	},
+	}
 };

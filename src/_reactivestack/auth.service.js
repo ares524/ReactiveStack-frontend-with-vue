@@ -1,18 +1,20 @@
 /* eslint-disable no-debugger */
-import ClientSocket from "@/_reactivestack/client.socket";
+import ClientSocket from '@/_reactivestack/client.socket';
 
-const DEFAULT_USER_INFO = {user: {}, jwt: ""};
+const DEFAULT_USER_INFO = {user: {}, jwt: ''};
 
 const _getLocalStorageUserInfo = () => {
-	let userInfo = localStorage.getItem("userInfo");
+	let userInfo = localStorage.getItem('userInfo');
 	return userInfo ? JSON.parse(userInfo) : DEFAULT_USER_INFO;
 };
 
 class AuthService {
-	_user = {};
-	_jwt = "";
+	_user;
+	_jwt;
 
 	constructor() {
+		this._user = {};
+		this._jwt = '';
 		this.checkLocalStorage();
 	}
 
@@ -49,9 +51,9 @@ class AuthService {
 	}
 
 	refresh({user, jwt}) {
-		console.log("[Auth] refresh:", {user, jwt});
+		console.log('[Auth] refresh:', {user, jwt});
 		if (!!user && !!jwt) {
-			localStorage.setItem("userInfo", JSON.stringify({user, jwt}));
+			localStorage.setItem('userInfo', JSON.stringify({user, jwt}));
 			this.sendState({user, jwt});
 		} else {
 			// TODO: error?
@@ -59,9 +61,9 @@ class AuthService {
 	}
 
 	login(user, jwt) {
-		console.log("[Auth] login:", {user, jwt});
+		console.log('[Auth] login:', {user, jwt});
 		if (!!user && !!jwt) {
-			localStorage.setItem("userInfo", JSON.stringify({user, jwt}));
+			localStorage.setItem('userInfo', JSON.stringify({user, jwt}));
 			this.sendState({user, jwt});
 			ClientSocket.authenticate();
 		} else {
@@ -70,15 +72,15 @@ class AuthService {
 	}
 
 	logout() {
-		console.log("[Auth] logout.");
-		localStorage.removeItem("userInfo");
+		console.log('[Auth] logout.');
+		localStorage.removeItem('userInfo');
 		this.sendState(DEFAULT_USER_INFO);
 	}
 
 	getAuthHeader() {
 		return {
-			"Content-Type": "application/json",
-			"Authorization": "Bearer " + _getLocalStorageUserInfo().jwt,
+			'Content-Type': 'application/json',
+			Authorization: 'Bearer ' + _getLocalStorageUserInfo().jwt
 		};
 	}
 }

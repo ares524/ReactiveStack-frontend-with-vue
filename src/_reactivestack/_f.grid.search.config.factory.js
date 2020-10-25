@@ -5,7 +5,7 @@ const _initialConfig = () => ({
 	page: 1,
 	pageSize: 10,
 	search: '',
-	sort: {createdAt: -1},
+	sort: {createdAt: -1}
 });
 
 // TODO: add dates/ranges
@@ -16,7 +16,7 @@ const gridSearchConfigFactory = (COLUMNS, config = _initialConfig()) => {
 	if (!_.isEmpty(search)) {
 		query = {
 			isLatest: true,
-			$or: orFilterFactory(search, COLUMNS),
+			$or: orFilterFactory(search, COLUMNS)
 		};
 	}
 	return {query, sort, page, pageSize};
