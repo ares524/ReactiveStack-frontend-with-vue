@@ -2,6 +2,18 @@
 
 See [reactive-stack-js](https://github.com/reactive-stack-js) for more info.
 
+### env file
+
+Make sure to add ```.env``` file with following content populated:
+```properties
+PORT = 3006
+VUE_APP_API_PATH = '//localhost:3003'
+VUE_APP_WS_URI = 'ws://localhost:3003/ws'
+
+VUE_APP_FB_APP_ID = '...'
+VUE_APP_GG_APP_ID = '...'
+```
+
 ## Project setup
 ```shellsession
 yarn install
