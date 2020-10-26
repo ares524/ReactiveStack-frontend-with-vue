@@ -1,0 +1,10 @@
+theme: jekyll-theme-hacker
+logo: https://avatars0.githubusercontent.com/u/72337471
+title: reactive-stack-js-rest-frontend-vue
+description: reactive-stack-js-rest-frontend-vue
+show_downloads: "false"
+include:
+  - "_*_.html"
+  - "_*_.*.html"
+plugins:
+  - jemoji
