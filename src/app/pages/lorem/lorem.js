@@ -6,7 +6,7 @@ import moment from 'moment';
 import router from '@/router';
 import AuthService from '@/_reactivestack/auth.service';
 import LocalStore from '@/_reactivestack/store/local.store';
-import {sendGet, sendPost} from '@/_reactivestack/_f.send.fetch';
+import {sendGet, sendPost} from '@/util/_f.send.fetch';
 
 export default {
 	name: 'Lorem',
