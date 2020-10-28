@@ -1,9 +1,12 @@
 {
 	"name": "frontend-vue",
-	"version": "0.1.0",
+	"version": "0.9.0",
 	"description": "reactive app frontend vue",
 	"author": "Predrag Stojadinovic <predrag@stojadinovic.net>",
-	"proxy": "http://localhost:3003",
+	"license": "UNLICENSE",
+	"engines": {
+		"node": ">=12"
+	},
 	"scripts": {
 		"serve": "vue-cli-service serve --port 3006 --open",
 		"build": "vue-cli-service build",
@@ -56,8 +59,5 @@
 		"> 1%",
 		"last 2 versions",
 		"not dead"
-	],
-	"engines": {
-		"node": ">=12"
-	}
+	]
 }
