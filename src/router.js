@@ -12,13 +12,13 @@ import AuthService from './_reactivestack/auth.service';
 import ClientSocket from './_reactivestack/client.socket';
 
 const routes = [
-	{path: '/', component: Lorems, meta: {requiresAuth: true}},
-	{path: '/lorem/:draftId', component: Lorem, props: true},
+	Lorems.route(),
+	Lorem.route(),
 	{path: '/about', component: About},
-	{path: '/logout', component: Logout},
-	{path: '/login/facebook', component: Social},
-	{path: '/login/google', component: Social}
+	Logout.route(),
+	...Social.routes()
 ];
+console.table(routes);
 
 const router = createRouter({
 	history: createWebHistory(process.env.BASE_URL),

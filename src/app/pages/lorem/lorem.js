@@ -12,6 +12,10 @@ export default {
 	name: 'Lorem',
 	props: ['draftId'],
 
+	route() {
+		return {path: '/lorem/:draftId', component: this, props: true};
+	},
+
 	setup(props) {
 		LocalStore.init() //
 			.then(() => {

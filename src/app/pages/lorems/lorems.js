@@ -37,6 +37,10 @@ export default {
 	name: 'Lorems',
 	components: {Controls, Preview},
 
+	route() {
+		return {path: '/', component: this, meta: {requiresAuth: true}};
+	},
+
 	setup() {
 		LocalStore.init() //
 			.then(() => {

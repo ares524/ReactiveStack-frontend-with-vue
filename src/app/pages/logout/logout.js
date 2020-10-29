@@ -3,9 +3,11 @@ import AuthService from '@/_reactivestack/auth.service';
 
 export default {
 	name: 'Logout',
-	// beforeCreate() {console.log("Logout beforeCreate")},
-	// created() {console.log("Logout created")},
-	// beforeMount() {console.log("Logout beforeMount")},
+
+	route() {
+		return {path: '/logout', component: this};
+	},
+
 	beforeCreate() {
 		AuthService.logout();
 		setTimeout(() => {

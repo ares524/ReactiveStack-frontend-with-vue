@@ -68,6 +68,14 @@ const _getSocialUrl = (provider) => {
 
 export default {
 	name: 'Social',
+
+	routes() {
+		return [
+			{path: '/login/google', component: this},
+			{path: '/login/facebook', component: this}
+		];
+	},
+
 	created() {
 		provider = _.replace(window.location.pathname, '/login/', '');
 		const params = queryString.parse(window.location.search);
