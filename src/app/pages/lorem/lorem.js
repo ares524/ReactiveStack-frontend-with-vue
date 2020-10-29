@@ -40,7 +40,7 @@ export default {
 			return false;
 		};
 
-		const isDraft = computed(() => !_.isEmpty(store.value.draft));
+		const isDraft = computed(() => !_.isEmpty(_.get(store, 'value.draft')));
 
 		watch(isDraft, async (value) => {
 			if (value !== true) await router.push('/');
