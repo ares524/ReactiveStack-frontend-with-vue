@@ -17,8 +17,8 @@
 			<p><label class="preview-label">Rating:</label> {{ store.selectedLorem.rating }}</p>
 			<p><label class="preview-label">Species:</label> {{ store.selectedLorem.species }}</p>
 			<p><label class="preview-label">Created&nbsp;At:</label>{{ momentDate(store.selectedLorem.createdAt) }}</p>
-			<p><label class="preview-label">Description:</label></p>
-			<div>{{ store.selectedLorem.description }}<br/>&nbsp;</div>
+			<p style="width: 400px;"><label class="preview-label">Description:</label>&nbsp;
+				{{ store.selectedLorem.description }}</p>
 		</div>
 		<Versions/>
 	</div>
