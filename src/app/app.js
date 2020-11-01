@@ -1,3 +1,5 @@
+import {ref} from 'vue';
+
 import Header from './pages/header/Header.vue';
 import GlobalStore from '@/_reactivestack/store/global.store';
 
@@ -6,13 +8,12 @@ export default {
 	components: {Header},
 
 	setup() {
-		GlobalStore.init().then(() => {
-			// updateSubscription...target, config
-		});
+		const store = ref(GlobalStore.init());
 		// GlobalStore.addTarget('some_name', 'some_collection', []);
-		// const store = ref(GlobalStore.getStore());
 
-		return {};
+		return {
+			store
+		};
 	}
 };
 

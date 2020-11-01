@@ -46,13 +46,13 @@ export default class ReactiveStore {
 		_.unset(this._store, name);
 	}
 
-	async init() {
+	init() {
+		this.destroy();
+
 		this._targets = {};
 		this._store = reactive({});
-		if (this._subscription) this.destroy();
 
-		let clientSocket = await ClientSocket.init();
-		this._subscription = clientSocket //
+		this._subscription = ClientSocket.init() //
 			.pipe(filter((message) => _isValidMessage(this._targets, message)))
 			.subscribe({
 				next: (message) => this._process(message),
@@ -69,7 +69,7 @@ export default class ReactiveStore {
 	}
 
 	destroy() {
-		this._subscription.unsubscribe();
+		if (this._subscription) this._subscription.unsubscribe();
 		this._subscription = null;
 		this._store = null;
 		console.log(this._name, 'destroyed.');
@@ -78,6 +78,7 @@ export default class ReactiveStore {
 	_process(message) {
 		const {target, payload} = message;
 		const {scope} = this._targets[target];
+
 		if (!scope) return;
 
 		_.set(this._store, target, payload[target]);

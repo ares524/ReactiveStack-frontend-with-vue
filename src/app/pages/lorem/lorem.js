@@ -1,4 +1,4 @@
-import {ref, computed, watch, onMounted, onUnmounted} from 'vue';
+import {ref, computed, watch} from 'vue';
 
 import _ from 'lodash';
 import moment from 'moment';
@@ -17,18 +17,9 @@ export default {
 	},
 
 	setup(props) {
-		LocalStore.init() //
-			.then(() => {
-				if (AuthService.loggedIn()) {
-					LocalStore.updateSubscription('draft', {_id: props.draftId});
-				}
-			});
+		const store = ref(LocalStore.init());
 		LocalStore.addTarget('draft', 'drafts', {});
-
-		const store = ref(LocalStore.getStore());
-
-		onMounted(() => console.log('lorem onMounted'));
-		onUnmounted(() => console.log('lorem onUnmounted'));
+		LocalStore.updateSubscription('draft', {_id: props.draftId});
 
 		const isDisabled = (fieldName) => {
 			if (store.value.draft) {

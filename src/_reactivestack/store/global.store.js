@@ -3,10 +3,9 @@ import ReactiveStore from '@/_reactivestack/store/reactive.store';
 export default class GlobalStore {
 	static _instance;
 
-	static async init(storeTargets) {
+	static init(storeTargets) {
 		if (!GlobalStore._instance) GlobalStore._instance = new ReactiveStore('GlobalStore');
-		await GlobalStore._instance.init(storeTargets);
-		return GlobalStore._instance;
+		return GlobalStore._instance.init(storeTargets);
 	}
 
 	static addTarget(name, collection, initial) {

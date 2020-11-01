@@ -1,4 +1,4 @@
-import {ref, onMounted, onUnmounted} from 'vue';
+import {ref} from 'vue';
 
 import _ from 'lodash';
 import moment from 'moment';
@@ -6,7 +6,6 @@ import moment from 'moment';
 import Preview from './preview/Preview.vue';
 import Controls from './controls/Controls.vue';
 
-import AuthService from '@/_reactivestack/auth.service';
 import LocalStore from '@/_reactivestack/store/local.store';
 import gridSearchConfigFactory from '@/_reactivestack/_f.grid.search.config.factory';
 
@@ -42,20 +41,11 @@ export default {
 	},
 
 	setup() {
-		LocalStore.init() //
-			.then(() => {
-				if (AuthService.loggedIn()) {
-					LocalStore.updateSubscription('lorems', gridSearchConfigFactory(COLUMNS));
-				}
-			});
+		const store = ref(LocalStore.init());
 		LocalStore.addTarget('lorems', 'lorems', []);
 		LocalStore.addTarget('selectedLorem', 'lorems', {});
 		LocalStore.addTarget('selectedLoremVersions', 'lorems', []);
-
-		const store = ref(LocalStore.getStore());
-
-		onMounted(() => console.log('lorems onMounted'));
-		onUnmounted(() => console.log('lorems onUnmounted'));
+		LocalStore.updateSubscription('lorems', gridSearchConfigFactory(COLUMNS));
 
 		let page = ref(1);
 		let pageSize = ref(10);
