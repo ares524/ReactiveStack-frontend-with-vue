@@ -3,9 +3,9 @@ import ReactiveStore from '@/_reactivestack/store/reactive.store';
 export default class LocalStore {
 	static _instance;
 
-	static init(storeTargets) {
+	static init() {
 		if (!LocalStore._instance) LocalStore._instance = new ReactiveStore('LocalStore');
-		return LocalStore._instance.init(storeTargets);
+		return LocalStore._instance.init();
 	}
 
 	static addTarget(name, collection, initial) {
