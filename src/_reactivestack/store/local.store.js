@@ -8,6 +8,11 @@ export default class LocalStore {
 		return LocalStore._instance.init();
 	}
 
+	static getStore() {
+		if (!LocalStore._instance) return LocalStore.init();
+		return LocalStore._instance.getStore();
+	}
+
 	static addTarget(name, collection, initial) {
 		LocalStore._instance.addTarget(name, collection, initial);
 	}
@@ -22,10 +27,6 @@ export default class LocalStore {
 
 	static closeSubscription(target) {
 		LocalStore._instance.closeSubscription(target);
-	}
-
-	static getStore() {
-		return LocalStore._instance.getStore();
 	}
 
 	static destroy() {

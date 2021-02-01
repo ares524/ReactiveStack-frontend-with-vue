@@ -8,7 +8,7 @@ export default {
 	components: {Header},
 
 	setup() {
-		const store = ref(GlobalStore.init());
+		const store = ref(GlobalStore.getStore());
 		// GlobalStore.addTarget('some_name', 'some_collection', []);
 
 		return {
