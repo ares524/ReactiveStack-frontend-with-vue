@@ -32,9 +32,13 @@ export default class ReactiveStore {
 	}
 
 	addTarget(name, collection, initial) {
-		if (_.includes(_.keys(this._targets), name)) throw new Error(`Target ${name} already exists!`);
+		if (_.includes(_.keys(this._targets), name)) return console.error(`Target ${name} already exists!`);
+
 		const target = {observe: collection, initial};
-		target.scope = _.isArray(initial) ? 'many' : 'one';
+
+		target.scope = 'one';
+		if (_.isArray(initial)) target.scope = 'many';
+		if (_.isInteger(initial)) target.scope = 'count';
 
 		_.set(this._targets, name, target);
 		_.set(this._store, name, initial);
