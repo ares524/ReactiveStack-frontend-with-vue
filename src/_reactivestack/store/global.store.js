@@ -11,8 +11,8 @@ export default class GlobalStore {
 		return GlobalStore._instance.getStore();
 	}
 
-	static addTarget(name, collection, initial) {
-		GlobalStore._instance.addTarget(name, collection, initial);
+	static addTarget(name, collection, initial, handler) {
+		GlobalStore._instance.addTarget(name, collection, initial, handler);
 	}
 
 	static removeTarget(name) {

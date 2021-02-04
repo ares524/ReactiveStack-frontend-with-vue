@@ -13,8 +13,8 @@ export default class LocalStore {
 		return LocalStore._instance.getStore();
 	}
 
-	static addTarget(name, collection, initial) {
-		LocalStore._instance.addTarget(name, collection, initial);
+	static addTarget(name, collection, initial, handler) {
+		LocalStore._instance.addTarget(name, collection, initial, handler);
 	}
 
 	static removeTarget(name) {

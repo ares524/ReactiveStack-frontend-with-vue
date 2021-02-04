@@ -13,11 +13,13 @@ export default class ReactiveStore {
 	_name;
 	_subscription;
 	_targets;
+	_handlers;
 	_store;
 
 	constructor(name) {
 		this._name = name;
 		this._targets = {};
+		this._handlers = {};
 	}
 
 	updateSubscription(target, config) {
@@ -31,7 +33,7 @@ export default class ReactiveStore {
 		ClientSocket.closeSubscription({target});
 	}
 
-	addTarget(name, collection, initial) {
+	addTarget(name, collection, initial, handler) {
 		if (_.includes(_.keys(this._targets), name)) return console.error(`Target ${name} already exists!`);
 
 		const target = {observe: collection, initial};
@@ -43,6 +45,8 @@ export default class ReactiveStore {
 		_.set(this._targets, name, target);
 		_.set(this._store, name, initial);
 		if (_.isArray(initial)) _.set(this._store, name + 'Count', 0);
+
+		if (_.isFunction(handler)) _.set(this._handlers, name, handler);
 	}
 
 	removeTarget(name) {
@@ -54,6 +58,7 @@ export default class ReactiveStore {
 		this.destroy();
 
 		this._targets = {};
+		this._handlers = {};
 		this._store = reactive({});
 
 		this._subscription = ClientSocket.init() //
@@ -87,5 +92,8 @@ export default class ReactiveStore {
 
 		_.set(this._store, target, payload[target]);
 		if (scope === 'many') _.set(this._store, target + 'Count', payload['_' + target + 'Count']);
+
+		let handler = _.get(this._handlers, target);
+		if (_.isFunction(handler)) handler();
 	}
 }
