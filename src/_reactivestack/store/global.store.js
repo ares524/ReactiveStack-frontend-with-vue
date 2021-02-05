@@ -11,12 +11,12 @@ export default class GlobalStore {
 		return GlobalStore._instance.getStore();
 	}
 
-	static addTarget(name, collection, initial, handler) {
-		GlobalStore._instance.addTarget(name, collection, initial, handler);
+	static addTarget(target, collection, initial, handler) {
+		GlobalStore._instance.addTarget(target, collection, initial, handler);
 	}
 
-	static removeTarget(name) {
-		GlobalStore._instance.removeTarget(name);
+	static removeTarget(target) {
+		GlobalStore._instance.removeTarget(target);
 	}
 
 	static updateSubscription(target, config) {

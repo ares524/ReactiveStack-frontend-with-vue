@@ -33,25 +33,26 @@ export default class ReactiveStore {
 		ClientSocket.closeSubscription({target});
 	}
 
-	addTarget(name, collection, initial, handler) {
-		if (_.includes(_.keys(this._targets), name)) return console.error(`Target ${name} already exists!`);
+	addTarget(target, collection, initial, handler) {
+		if (_.includes(_.keys(this._targets), target)) return console.error(`Target ${target} already exists!`);
 
-		const target = {observe: collection, initial};
+		const targetObject = {observe: collection, initial};
 
-		target.scope = 'one';
-		if (_.isArray(initial)) target.scope = 'many';
-		if (_.isInteger(initial)) target.scope = 'count';
+		targetObject.scope = 'one';
+		if (_.isArray(initial)) targetObject.scope = 'many';
+		if (_.isInteger(initial)) targetObject.scope = 'count';
 
-		_.set(this._targets, name, target);
-		_.set(this._store, name, initial);
-		if (_.isArray(initial)) _.set(this._store, name + 'Count', 0);
+		_.set(this._targets, target, targetObject);
+		_.set(this._store, target, initial);
+		if (_.isArray(initial)) _.set(this._store, target + 'Count', 0);
 
-		if (_.isFunction(handler)) _.set(this._handlers, name, handler);
+		if (_.isFunction(handler)) _.set(this._handlers, target, handler);
 	}
 
-	removeTarget(name) {
-		_.unset(this._targets, name);
-		_.unset(this._store, name);
+	removeTarget(target) {
+		_.unset(this._targets, target);
+		_.unset(this._store, target);
+		_.unset(this._handlers, target);
 	}
 
 	init() {

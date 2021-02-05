@@ -13,12 +13,12 @@ export default class LocalStore {
 		return LocalStore._instance.getStore();
 	}
 
-	static addTarget(name, collection, initial, handler) {
-		LocalStore._instance.addTarget(name, collection, initial, handler);
+	static addTarget(target, collection, initial, handler) {
+		LocalStore._instance.addTarget(target, collection, initial, handler);
 	}
 
-	static removeTarget(name) {
-		LocalStore._instance.removeTarget(name);
+	static removeTarget(target) {
+		LocalStore._instance.removeTarget(target);
 	}
 
 	static updateSubscription(target, config) {
