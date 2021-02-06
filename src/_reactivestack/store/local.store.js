@@ -13,6 +13,12 @@ export default class LocalStore {
 		return LocalStore._instance.getStore();
 	}
 
+	static loadOnce(target, collection, initial, config) {
+		const closeSubscription = () => LocalStore._instance.closeSubscription(target);
+		LocalStore._instance.addTarget(target, collection, initial, closeSubscription);
+		LocalStore._instance.updateSubscription(target, config);
+	}
+
 	static addTarget(target, collection, initial, handler) {
 		LocalStore._instance.addTarget(target, collection, initial, handler);
 	}

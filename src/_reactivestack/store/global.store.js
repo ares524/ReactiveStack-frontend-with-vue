@@ -11,6 +11,12 @@ export default class GlobalStore {
 		return GlobalStore._instance.getStore();
 	}
 
+	static loadOnce(target, collection, initial, config) {
+		const closeSubscription = () => GlobalStore._instance.closeSubscription(target);
+		GlobalStore._instance.addTarget(target, collection, initial, closeSubscription);
+		GlobalStore._instance.updateSubscription(target, config);
+	}
+
 	static addTarget(target, collection, initial, handler) {
 		GlobalStore._instance.addTarget(target, collection, initial, handler);
 	}
