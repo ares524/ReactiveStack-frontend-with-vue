@@ -23,7 +23,6 @@ export default class ReactiveStore {
 	}
 
 	updateSubscription(target, config) {
-		console.log('updateSubscription', {target, config});
 		const {observe, scope} = this._targets[target];
 		if (!observe || !scope) return;
 		ClientSocket.updateSubscription({target, observe, scope, config});
