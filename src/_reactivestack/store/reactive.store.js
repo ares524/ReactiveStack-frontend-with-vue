@@ -6,7 +6,7 @@ import ClientSocket from '../client.socket';
 
 const _isValidMessage = (targets, message) => {
 	const {type, target} = message;
-	return 'update' === type && _.includes(_.keys(targets), target);
+	return _.includes(['update', 'increment'], type) && _.includes(_.keys(targets), target);
 };
 
 export default class ReactiveStore {
@@ -86,13 +86,22 @@ export default class ReactiveStore {
 	}
 
 	_process(message) {
-		const {target, payload} = message;
+		const {type, target, payload} = message;
 		const {scope} = this._targets[target];
-
 		if (!scope) return;
 
-		_.set(this._store, target, payload[target]);
-		if (scope === 'many') _.set(this._store, target + 'Count', payload['_' + target + 'Count']);
+		if (type === 'increment') {
+			let current = _.get(this._store, target);
+			let increment = payload[target];
+			if (_.isArray(increment)) _.each(increment, (item) => current.push(item));
+			else current.push(increment);
+
+			_.set(this._store, target, current);
+
+		} else {
+			_.set(this._store, target, payload[target]);
+			if (scope === 'many') _.set(this._store, target + 'Count', payload['_' + target + 'Count']);
+		}
 
 		let handler = _.get(this._handlers, target);
 		if (_.isFunction(handler)) handler();
