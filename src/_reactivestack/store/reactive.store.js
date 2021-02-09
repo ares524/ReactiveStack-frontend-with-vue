@@ -105,11 +105,13 @@ export default class ReactiveStore {
 		if (type === 'increment') {
 			let current = _.get(this._store, target);
 			let increment = _.get(payload, target);
-			if (_.isArray(increment)) _.each(increment, (item) => current.push(item));
-			else current.push(increment);
+			if (!_.isEmpty(increment)) {
+				if (_.isArray(increment)) _.each(increment, (item) => current.push(item));
+				else current.push(increment);
 
-			_.set(this._store, target, current);
-			_.set(this._sources, target, current);
+				_.set(this._store, target, current);
+				_.set(this._sources, target, current);
+			}
 
 		} else {
 			let current = _.get(this._sources, target);
