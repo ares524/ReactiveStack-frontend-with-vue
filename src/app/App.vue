@@ -4,7 +4,7 @@
 <template>
 	<div id="reactive-stack-app">
 		<div id="header">
-			<Header />
+			<Header/>
 		</div>
 
 		<div id="content">

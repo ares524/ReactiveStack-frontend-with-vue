@@ -50,6 +50,14 @@ export default class ClientSocket extends Subject {
 
 		let {payload} = message;
 		switch (message.type) {
+
+			case 'ping':
+				ClientSocket.send({
+					...message,
+					type: 'pong'
+				});
+				return;
+
 			case 'socketId':
 				ClientSocket._socket.id = message.socketId;
 				await ClientSocket.authenticate();
