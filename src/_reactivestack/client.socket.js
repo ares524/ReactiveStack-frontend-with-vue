@@ -69,6 +69,7 @@ export default class ClientSocket extends Subject {
 
 			case 'update':
 			case 'increment':
+			case 'delete':
 				if (!AuthService.loggedIn()) return;
 				ClientSocket._instance.next(message);
 				return;

@@ -6,7 +6,7 @@ import ClientSocket from '../client.socket';
 
 const _isValidMessage = (targets, message) => {
 	const {type, target} = message;
-	return _.includes(['update', 'increment'], type) && _.includes(_.keys(targets), target);
+	return _.includes(['update', 'increment', 'delete'], type) && _.includes(_.keys(targets), target);
 };
 
 export default class ReactiveStore {
@@ -102,7 +102,9 @@ export default class ReactiveStore {
 		const {scope} = this._targets[target];
 		if (!scope) return;
 
-		if (type === 'increment') {
+		if (type === 'delete') {
+			// TODO
+		} else if (type === 'increment') {
 			let current = _.get(this._store, target);
 			let incoming = _.get(payload, target);
 			if (!_.isEmpty(incoming)) {
