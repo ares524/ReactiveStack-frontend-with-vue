@@ -104,27 +104,23 @@ export default class ReactiveStore {
 
 		if (type === 'increment') {
 			let current = _.get(this._store, target);
-			let increment = _.get(payload, target);
-			if (!_.isEmpty(increment)) {
-				if (_.isArray(increment)) _.each(increment, (item) => current.push(item));
-				else current.push(increment);
+			let incoming = _.get(payload, target);
+			if (!_.isEmpty(incoming)) {
+				if (_.isArray(incoming)) _.each(incoming, (item) => current.push(item));
+				else current.push(incoming);
 
 				_.set(this._store, target, current);
 				_.set(this._sources, target, current);
 			}
 
 		} else {
-			let current = _.get(this._sources, target);
 			let incoming = _.get(payload, target);
-			let diff = _.xorWith(current, incoming, _.isEqual);
-			if (!_.isEmpty(diff)) {
-				_.set(this._store, target, incoming);
-				_.set(this._sources, target, incoming);
-				if (scope === 'many') {
-					let count = _.get(payload, '_' + target + 'Count');
-					_.set(this._store, target + 'Count', count);
-					_.set(this._sources, target + 'Count', count);
-				}
+			_.set(this._store, target, incoming);
+			_.set(this._sources, target, incoming);
+			if (scope === 'many') {
+				let count = _.get(payload, '_' + target + 'Count');
+				_.set(this._store, target + 'Count', count);
+				_.set(this._sources, target + 'Count', count);
 			}
 		}
 
