@@ -2,7 +2,7 @@ import _ from 'lodash';
 import {reactive} from 'vue';
 import {filter} from 'rxjs/operators';
 
-import ClientSocket from '../client.socket';
+import ClientSocket from '@/_reactivestack/client.socket';
 
 const _isValidMessage = (targets, message) => {
 	const {type, target} = message;
@@ -104,12 +104,18 @@ export default class ReactiveStore {
 
 		if (type === 'delete') {
 			// TODO
-		} else if (type === 'increment') {
-			let current = _.get(this._store, target);
+
+		} else if (type === 'increment' && scope === 'many') {
+			let current = _.get(this._sources, target);
+
 			let incoming = _.get(payload, target);
 			if (!_.isEmpty(incoming)) {
 				if (_.isArray(incoming)) _.each(incoming, (item) => current.push(item));
 				else current.push(incoming);
+
+				current = _.reverse(current);
+				current = _.uniqBy(current, '_id');
+				current = _.reverse(current);
 
 				_.set(this._store, target, current);
 				_.set(this._sources, target, current);
