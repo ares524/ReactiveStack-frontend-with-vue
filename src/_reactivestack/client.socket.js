@@ -18,6 +18,7 @@ export default class ClientSocket extends Subject {
 	static _socket;
 
 	static _queue = [];
+	static _subscriptions = {};
 
 	static _onError = (err) => console.error(`[error] ${err.message}`);
 
@@ -33,20 +34,15 @@ export default class ClientSocket extends Subject {
 
 		_.each(ClientSocket._queue, ClientSocket.send);
 		ClientSocket._queue = [];
+
+		_.each(ClientSocket._subscriptions, ClientSocket.send);
 	};
 
 	static _onMessage = async (e) => {
 		let {data: message} = e;
 		message = JSON.parse(message);
-		// console.log("[WS] Message received from server:", ClientSocket._socket.id, _.omit(message, "payload"), AuthService.loggedIn());
-		console.log(
-			'[WS] Server message:',
-			AuthService.loggedIn(),
-			ClientSocket._socket.id,
-			message.type,
-			message.target,
-			message.payload
-		);
+		// console.log('[WS] Message received from server:', ClientSocket._socket.id, _.omit(message, 'payload'), AuthService.loggedIn());
+		console.log('[WS] Server message:', AuthService.loggedIn(), ClientSocket._socket.id, message.type, message.target, message.payload);
 
 		let {payload} = message;
 		switch (message.type) {
@@ -103,13 +99,18 @@ export default class ClientSocket extends Subject {
 	}
 
 	static updateSubscription(message) {
-		ClientSocket.send({
+		const {target} = message;
+		ClientSocket._subscriptions[target] = {
 			...message,
 			type: 'subscribe'
-		});
+		};
+		ClientSocket.send(ClientSocket._subscriptions[target]);
 	}
 
 	static closeSubscription(message) {
+		const {target} = message;
+		delete ClientSocket._subscriptions[target];
+
 		ClientSocket.send({
 			...message,
 			type: 'unsubscribe'

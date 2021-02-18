@@ -56,11 +56,12 @@ export default class ReactiveStore {
 	}
 
 	removeTarget(target) {
-		// console.log('unsubscribe', target);
+		// console.log('removeTarget', target);
 		_.unset(this._targets, target);
 		_.unset(this._store, target);
 		_.unset(this._sources, target);
 		_.unset(this._handlers, target);
+		ClientSocket.closeSubscription({target});
 	}
 
 	init() {
