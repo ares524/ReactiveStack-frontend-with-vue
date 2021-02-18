@@ -23,7 +23,7 @@ class AuthService {
 	}
 
 	userId() {
-		return this._user.id;
+		return this._user._id;
 	}
 
 	jwt() {
@@ -31,7 +31,7 @@ class AuthService {
 	}
 
 	loggedIn() {
-		return !!this._user.id;
+		return !!this._user._id;
 	}
 
 	sendState(state) {
