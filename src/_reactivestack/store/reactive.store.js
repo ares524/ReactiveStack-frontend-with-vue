@@ -114,9 +114,9 @@ export default class ReactiveStore {
 				if (_.isArray(incoming)) _.each(incoming, (item) => current.push(item));
 				else current.push(incoming);
 
-				current = _.reverse(current);
+				_.reverse(current);
 				current = _.uniqBy(current, '_id');
-				current = _.reverse(current);
+				_.reverse(current);
 
 				_.set(this._store, target, current);
 				_.set(this._sources, target, current);
