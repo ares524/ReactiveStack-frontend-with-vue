@@ -6,14 +6,14 @@ const _initialConfig = () => ({
 	pageSize: 10,
 	search: '',
 	sort: {createdAt: -1},
-	fields: {},
+	fields: [],
 	incremental: false,
 	populates: []
 });
 
 // TODO: add dates/ranges
 const gridSearchConfigFactory = (COLUMNS, config = _initialConfig()) => {
-	let {search, sort, page, pageSize, query = {isLatest: true}, fields = {}, incremental = false, populates = []} = config;
+	let {search, sort, page, pageSize, query = {isLatest: true}, fields = [], incremental = false, populates = []} = config;
 
 	if (!_.isEmpty(search)) {
 		query = {
