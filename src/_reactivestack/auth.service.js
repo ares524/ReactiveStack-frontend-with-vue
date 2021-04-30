@@ -1,4 +1,6 @@
+import {reactive} from "vue";
 import _ from 'lodash';
+
 import ClientSocket from '@/_reactivestack/client.socket';
 
 const DEFAULT_USER_INFO = {user: {}, jwt: ''};
@@ -9,12 +11,10 @@ const _getLocalStorageUserInfo = () => {
 };
 
 class AuthService {
-	_user;
-	_jwt;
+	_data;
 
 	constructor() {
-		this._user = {};
-		this._jwt = '';
+		this._data = reactive({});
 		this._checkLocalStorage();
 	}
 
@@ -53,26 +53,30 @@ class AuthService {
 		this._setData(DEFAULT_USER_INFO);
 	}
 
+	data() {
+		return this._data;
+	}
+
 	jwt() {
-		return this._jwt;
+		return _.get(this._data, 'jwt');
 	}
 
 	user() {
-		return this._user;
+		return _.get(this._data, 'user');
 	}
 
 	userAttribute(name) {
-		return _.get(this._user, name);
+		return _.get(this._data, `user.${name}`);
 	}
 
 	loggedIn() {
-		return !_.isEmpty(this._user);
+		return !_.isEmpty(this.user());
 	}
 
 	_setData(data) {
 		let {user, jwt} = data;
-		this._user = user;
-		this._jwt = jwt;
+		_.set(this._data, 'user', user);
+		_.set(this._data, 'jwt', jwt);
 	}
 
 	_checkLocalStorage() {
