@@ -35,6 +35,15 @@ export default class ReactiveStore {
 		ClientSocket.closeSubscription({target});
 	}
 
+	removeTarget(target) {
+		// console.log('removeTarget', target);
+		_.unset(this._targets, target);
+		_.unset(this._store, target);
+		_.unset(this._sources, target);
+		_.unset(this._handlers, target);
+		ClientSocket.closeSubscription({target});
+	}
+
 	addTarget(target, collection, initial, handler) {
 		if (_.includes(_.keys(this._targets), target)) return console.error(`Target ${target} already exists!`);
 
@@ -53,15 +62,6 @@ export default class ReactiveStore {
 		}
 
 		if (_.isFunction(handler)) _.set(this._handlers, target, handler);
-	}
-
-	removeTarget(target) {
-		// console.log('removeTarget', target);
-		_.unset(this._targets, target);
-		_.unset(this._store, target);
-		_.unset(this._sources, target);
-		_.unset(this._handlers, target);
-		ClientSocket.closeSubscription({target});
 	}
 
 	init() {
