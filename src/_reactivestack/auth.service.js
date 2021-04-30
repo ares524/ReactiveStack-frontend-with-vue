@@ -1,4 +1,4 @@
-/* eslint-disable no-debugger */
+import _ from 'lodash';
 import ClientSocket from '@/_reactivestack/client.socket';
 
 const DEFAULT_USER_INFO = {user: {}, jwt: ''};
@@ -15,56 +15,32 @@ class AuthService {
 	constructor() {
 		this._user = {};
 		this._jwt = '';
-		this.checkLocalStorage();
+		this._checkLocalStorage();
 	}
 
-	user() {
-		return this._user;
-	}
-
-	userId() {
-		return this._user._id;
-	}
-
-	jwt() {
-		return this._jwt;
-	}
-
-	loggedIn() {
-		return !!this._user._id;
-	}
-
-	sendState(state) {
-		let {user, jwt} = state;
-		this._user = user;
-		this._jwt = jwt;
-	}
-
-	checkLocalStorage() {
-		let userInfo = _getLocalStorageUserInfo();
-		if (!!userInfo && !!userInfo.user && !!userInfo.user.expires_at) {
-			const expiresAt = userInfo.user.expires_at;
-			const now = new Date().getTime();
-			if (now < expiresAt) return this.sendState(userInfo);
-		}
-		this.logout();
+	getAuthHeader() {
+		return {
+			'Content-Type': 'application/json',
+			Authorization: 'Bearer ' + _getLocalStorageUserInfo().jwt,
+			FusionPage: _.trim(_.get(window, 'location.pathname', '/'))
+		};
 	}
 
 	refresh({user, jwt}) {
 		console.log('[Auth] refresh:', {user, jwt});
 		if (!!user && !!jwt) {
 			localStorage.setItem('userInfo', JSON.stringify({user, jwt}));
-			this.sendState({user, jwt});
+			this._setData({user, jwt});
 		} else {
 			// TODO: error?
 		}
 	}
 
 	login(user, jwt) {
-		console.log('[Auth] login:', {user, jwt});
+		console.log('[Auth] auth:', {user, jwt});
 		if (!!user && !!jwt) {
 			localStorage.setItem('userInfo', JSON.stringify({user, jwt}));
-			this.sendState({user, jwt});
+			this._setData({user, jwt});
 			ClientSocket.authenticate();
 		} else {
 			this.logout();
@@ -74,14 +50,39 @@ class AuthService {
 	logout() {
 		console.log('[Auth] logout.');
 		localStorage.removeItem('userInfo');
-		this.sendState(DEFAULT_USER_INFO);
+		this._setData(DEFAULT_USER_INFO);
 	}
 
-	getAuthHeader() {
-		return {
-			'Content-Type': 'application/json',
-			Authorization: 'Bearer ' + _getLocalStorageUserInfo().jwt
-		};
+	jwt() {
+		return this._jwt;
+	}
+
+	user() {
+		return this._user;
+	}
+
+	userAttribute(name) {
+		return _.get(this._user, name);
+	}
+
+	loggedIn() {
+		return !_.isEmpty(this._user);
+	}
+
+	_setData(data) {
+		let {user, jwt} = data;
+		this._user = user;
+		this._jwt = jwt;
+	}
+
+	_checkLocalStorage() {
+		let userInfo = _getLocalStorageUserInfo();
+		if (!!userInfo?.user?.expires_at) {
+			const expiresAt = userInfo.user.expires_at;
+			const now = new Date().getTime();
+			if (now < expiresAt) return this._setData(userInfo);
+		}
+		this.logout();
 	}
 }
 

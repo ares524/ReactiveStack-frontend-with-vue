@@ -28,7 +28,7 @@ export default {
 					let field = _.get(meta, fieldName);
 					if (field) {
 						let user = _.get(field, 'user');
-						return user !== AuthService.userId();
+						return user !== AuthService.userAttribute('_id');
 					}
 				}
 			}
