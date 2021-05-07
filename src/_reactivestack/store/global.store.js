@@ -21,6 +21,10 @@ export default class GlobalStore {
 		GlobalStore._instance.addTarget(target, collection, initial, handler);
 	}
 
+	static removeTargets() {
+		GlobalStore._instance.removeTargets();
+	}
+
 	static removeTarget(target) {
 		GlobalStore._instance.removeTarget(target);
 	}

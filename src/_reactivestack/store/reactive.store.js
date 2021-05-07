@@ -44,6 +44,11 @@ export default class ReactiveStore {
 		ClientSocket.closeSubscription({target});
 	}
 
+	removeTargets() {
+		const targets = _.keys(this._targets);
+		_.each(targets, (target) => this.removeTarget(target));
+	}
+
 	addTarget(target, collection, initial, handler) {
 		if (_.includes(_.keys(this._targets), target)) return console.error(`Target ${target} already exists!`);
 
