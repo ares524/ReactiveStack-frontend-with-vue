@@ -24,6 +24,10 @@ export default class ReactiveStore {
 		this._sources = {};
 	}
 
+	isLoaded(target) {
+		return !_.isEmpty(_.get(this._store, target));
+	}
+
 	updateSubscription(target, config) {
 		// console.log('updateSubscription', {target, config});
 		const {observe, scope} = this._targets[target];

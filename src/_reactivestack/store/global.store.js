@@ -11,6 +11,10 @@ export default class GlobalStore {
 		return GlobalStore._instance.getStore();
 	}
 
+	static isLoaded(target) {
+		return GlobalStore._instance.isLoaded(target);
+	}
+
 	static loadOnce(target, collection, initial, config) {
 		const closeSubscription = () => GlobalStore._instance.closeSubscription(target);
 		GlobalStore._instance.addTarget(target, collection, initial, closeSubscription);
