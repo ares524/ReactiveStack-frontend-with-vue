@@ -5,7 +5,7 @@ import moment from 'moment';
 import router from '@/router';
 import Versions from './versions/Versions.vue';
 import LocalStore from '@/_reactivestack/store/local.store';
-import {sendGet} from '@/services/_f.send.fetch';
+import {sendGet} from '@/factories/_f.send.fetch';
 
 export default {
 	name: 'Preview',
