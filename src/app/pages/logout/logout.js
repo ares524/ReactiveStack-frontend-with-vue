@@ -1,5 +1,5 @@
 import router from '@/router';
-import Auth from '@/_reactivestack/auth.service';
+import Auth from '@/_reactivestack/auth';
 
 export default {
 	name: 'Logout',

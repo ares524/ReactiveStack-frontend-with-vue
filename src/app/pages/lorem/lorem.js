@@ -4,7 +4,7 @@ import _ from 'lodash';
 import moment from 'moment';
 
 import router from '@/router';
-import Auth from '@/_reactivestack/auth.service';
+import Auth from '@/_reactivestack/auth';
 import LocalStore from '@/_reactivestack/store/local.store';
 import {sendGet, sendPost} from '@/factories/_f.send.fetch';
 

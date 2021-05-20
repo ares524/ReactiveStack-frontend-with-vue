@@ -3,7 +3,7 @@ import {v4 as uuidv4} from 'uuid';
 import queryString from 'query-string';
 
 import router from '@/router';
-import Auth from '@/_reactivestack/auth.service';
+import Auth from '@/_reactivestack/auth';
 
 const VUE_APP_API_PATH = process.env.VUE_APP_API_PATH;
 

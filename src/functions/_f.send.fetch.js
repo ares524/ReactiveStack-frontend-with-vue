@@ -1,6 +1,6 @@
 import _ from 'lodash';
 
-import Auth from '@/_reactivestack/auth.service';
+import Auth from '@/_reactivestack/auth';
 
 const VUE_APP_API_PATH = process.env.VUE_APP_API_PATH;
 

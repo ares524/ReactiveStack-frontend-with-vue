@@ -1,7 +1,7 @@
 import _ from 'lodash';
 
 import router from '@/router';
-import Auth from '@/_reactivestack/auth.service';
+import Auth from '@/_reactivestack/auth';
 
 if (window.location.pathname !== '/' && !_.startsWith(window.location.pathname, '/login')) {
 	localStorage.setItem('initialPageRequest', window.location.pathname);

@@ -1,5 +1,5 @@
 import _ from 'lodash';
-import Auth from '@/_reactivestack/auth.service';
+import Auth from '@/_reactivestack/auth';
 
 let pathname = _.replace(window.location.pathname, '/', '');
 
