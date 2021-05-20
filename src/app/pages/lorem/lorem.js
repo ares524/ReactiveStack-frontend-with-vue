@@ -4,9 +4,9 @@ import _ from 'lodash';
 import moment from 'moment';
 
 import router from '@/router';
-import AuthService from '@/_reactivestack/auth.service';
+import Auth from '@/_reactivestack/auth.service';
 import LocalStore from '@/_reactivestack/store/local.store';
-import {sendGet, sendPost} from '@/util/_f.send.fetch';
+import {sendGet, sendPost} from '@/services/_f.send.fetch';
 
 export default {
 	name: 'Lorem',
@@ -28,7 +28,7 @@ export default {
 					let field = _.get(meta, fieldName);
 					if (field) {
 						let user = _.get(field, 'user');
-						return user !== AuthService.userAttribute('_id');
+						return user !== Auth.userAttribute('_id');
 					}
 				}
 			}

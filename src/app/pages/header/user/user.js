@@ -1,13 +1,13 @@
 import _ from 'lodash';
 
 import router from '@/router';
-import AuthService from '@/_reactivestack/auth.service';
+import Auth from '@/_reactivestack/auth.service';
 
 if (window.location.pathname !== '/' && !_.startsWith(window.location.pathname, '/login')) {
 	localStorage.setItem('initialPageRequest', window.location.pathname);
 }
 
-let user = AuthService.user();
+let user = Auth.user();
 
 export default {
 	name: 'User',
@@ -15,7 +15,7 @@ export default {
 		return {
 			provider: _.toLower(_.first(_.words(_.get(user, 'provider', '')))),
 			providerId: _.toLower(_.first(_.words(_.get(user, 'providerId', '')))),
-			notLoggedIn: !AuthService.loggedIn()
+			notLoggedIn: !Auth.loggedIn()
 		};
 	},
 	methods: {
@@ -28,10 +28,10 @@ export default {
 	},
 	watch: {
 		$route() {
-			let user = AuthService.user();
+			let user = Auth.user();
 			this.provider = _.toLower(_.first(_.words(_.get(user, 'provider', ''))));
 			this.providerId = _.toLower(_.first(_.words(_.get(user, 'providerId', ''))));
-			this.notLoggedIn = !AuthService.loggedIn();
+			this.notLoggedIn = !Auth.loggedIn();
 		}
 	}
 };

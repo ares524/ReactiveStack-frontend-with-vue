@@ -1,5 +1,5 @@
 import router from '@/router';
-import AuthService from '@/_reactivestack/auth.service';
+import Auth from '@/_reactivestack/auth.service';
 
 export default {
 	name: 'Logout',
@@ -9,7 +9,7 @@ export default {
 	},
 
 	beforeCreate() {
-		AuthService.logout();
+		Auth.logout();
 		setTimeout(() => {
 			router.push('/');
 		}, 1000);

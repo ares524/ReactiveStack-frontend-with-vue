@@ -10,7 +10,7 @@ const _getLocalStorageUserInfo = () => {
 	return userInfo ? JSON.parse(userInfo) : DEFAULT_USER_INFO;
 };
 
-class AuthService {
+class Auth {
 	_data;
 
 	constructor() {
@@ -90,4 +90,4 @@ class AuthService {
 	}
 }
 
-export default new AuthService();
+export default new Auth();

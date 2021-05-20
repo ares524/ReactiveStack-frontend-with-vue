@@ -3,7 +3,7 @@ import {v4 as uuidv4} from 'uuid';
 import queryString from 'query-string';
 
 import router from '@/router';
-import AuthService from '@/_reactivestack/auth.service';
+import Auth from '@/_reactivestack/auth.service';
 
 const VUE_APP_API_PATH = process.env.VUE_APP_API_PATH;
 
@@ -28,7 +28,7 @@ const login = async (code) => {
 	});
 	const body = await response.json();
 	const {jwt, user} = body;
-	AuthService.login(user, jwt);
+	Auth.login(user, jwt);
 
 	const initialPageRequest = localStorage.getItem('initialPageRequest');
 	localStorage.removeItem('initialPageRequest');

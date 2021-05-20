@@ -8,7 +8,7 @@ import Lorems from './app/pages/lorems/Lorems.vue';
 import Logout from './app/pages/logout/Logout.vue';
 import Social from './app/pages/login/Social.vue';
 
-import AuthService from './_reactivestack/auth.service';
+import Auth from './_reactivestack/auth';
 import ClientSocket from './_reactivestack/client.socket';
 
 const routes = [
@@ -34,10 +34,10 @@ const _clean = (path) => {
 };
 
 router.beforeEach(function (to, from, next) {
-	// console.log("\nrouter.beforeEach", to.path, "loggedIn=" + AuthService.loggedIn());
+	// console.log("\nrouter.beforeEach", to.path, "loggedIn=" + Auth.loggedIn());
 	ClientSocket.location(_clean(to.path));
 	if (to.matched.some((route) => route.meta.requiresAuth)) {
-		if (!AuthService.loggedIn()) {
+		if (!Auth.loggedIn()) {
 			next({
 				path: '/about'
 				// , params: {nextUrl: to.fullPath}

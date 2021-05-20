@@ -3,7 +3,7 @@ import {Subject} from 'rxjs';
 import {v4 as uuidv4} from 'uuid';
 import ReconnectingWebSocket from 'reconnecting-websocket';
 
-import AuthService from './auth.service';
+import Auth from './auth';
 
 const WS_URI = process.env.VUE_APP_WS_URI;
 
@@ -41,8 +41,8 @@ export default class ClientSocket extends Subject {
 	static _onMessage = async (e) => {
 		let {data: message} = e;
 		message = JSON.parse(message);
-		// console.log('[WS] Message received from server:', ClientSocket._socket.id, _.omit(message, 'payload'), AuthService.loggedIn());
-		console.log('[WS] Server message:', AuthService.loggedIn(), ClientSocket._socket.id, message.type, message.target, message.payload);
+		// console.log('[WS] Message received from server:', ClientSocket._socket.id, _.omit(message, 'payload'), Auth.loggedIn());
+		console.log('[WS] Server message:', Auth.loggedIn(), ClientSocket._socket.id, message.type, message.target, message.payload);
 
 		let {payload} = message;
 		switch (message.type) {
@@ -60,13 +60,13 @@ export default class ClientSocket extends Subject {
 				return;
 
 			case 'refresh':
-				AuthService.refresh(payload);
+				Auth.refresh(payload);
 				return;
 
 			case 'update':
 			case 'increment':
 			case 'delete':
-				if (!AuthService.loggedIn()) return;
+				if (!Auth.loggedIn()) return;
 				ClientSocket._instance.next(message);
 				return;
 
@@ -94,8 +94,8 @@ export default class ClientSocket extends Subject {
 	}
 
 	static async authenticate() {
-		if (!AuthService.loggedIn()) return;
-		await ClientSocket.send({type: 'authenticate', jwt: AuthService.jwt()});
+		if (!Auth.loggedIn()) return;
+		await ClientSocket.send({type: 'authenticate', jwt: Auth.jwt()});
 	}
 
 	static updateSubscription(message) {
