@@ -1,5 +1,5 @@
 import _ from 'lodash';
-import orFilterFactory from '@/_reactivestack/_f.or.filter.factory';
+import orFilterFactory from '@/factories/or.filter.factory';
 
 const _initialConfig = () => ({
 	page: 1,

@@ -7,7 +7,7 @@ import Preview from './preview/Preview.vue';
 import Controls from './controls/Controls.vue';
 
 import LocalStore from '@/_reactivestack/store/local.store';
-import gridSearchConfigFactory from '@/_reactivestack/_f.grid.search.config.factory';
+import gridSearchConfigFactory from '@/factories/grid.search.config.factory';
 
 const _toggleSortingHelper = (sorting, label) => {
 	let sortingLabel = _.get(sorting, label, false);
