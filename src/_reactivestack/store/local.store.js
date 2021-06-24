@@ -27,10 +27,6 @@ export default class LocalStore {
 		LocalStore._instance.addTarget(target, collection, initial, handler);
 	}
 
-	static removeTargets() {
-		LocalStore._instance.removeTargets();
-	}
-
 	static removeTarget(target) {
 		LocalStore._instance.removeTarget(target);
 	}
