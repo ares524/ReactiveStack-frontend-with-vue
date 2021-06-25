@@ -1,11 +1,11 @@
-import {ref, computed, watch} from 'vue';
+import {ref, computed, watch, onUnmounted} from 'vue';
 
 import _ from 'lodash';
 import moment from 'moment';
 
 import router from '@/router';
 import Auth from '@/_reactivestack/auth';
-import LocalStore from '@/_reactivestack/store/local.store';
+import ReactiveStore from '@/_reactivestack/store/reactive.store';
 import {sendGet, sendPost} from '@/functions/send.fetch';
 
 export default {
@@ -17,9 +17,12 @@ export default {
 	},
 
 	setup(props) {
-		const store = ref(LocalStore.init());
-		LocalStore.addTarget('draft', 'drafts', {});
-		LocalStore.updateSubscription('draft', {_id: props.draftId});
+		const reactiveStore = new ReactiveStore('Lorem-Store');
+		const store = ref(reactiveStore.getStore());
+		onUnmounted(() => reactiveStore.destroy());
+
+		reactiveStore.addTarget('draft', 'drafts', {});
+		reactiveStore.updateSubscription('draft', {_id: props.draftId});
 
 		const isDisabled = (fieldName) => {
 			if (store.value.draft) {

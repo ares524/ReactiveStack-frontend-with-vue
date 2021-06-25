@@ -1,4 +1,4 @@
-import {ref} from 'vue';
+import {onUnmounted, ref} from 'vue';
 
 import _ from 'lodash';
 import moment from 'moment';
@@ -6,7 +6,7 @@ import moment from 'moment';
 import Preview from './preview/Preview.vue';
 import Controls from './controls/Controls.vue';
 
-import LocalStore from '@/_reactivestack/store/local.store';
+import ReactiveStore from '@/_reactivestack/store/reactive.store';
 import gridSearchConfigFactory from '@/factories/grid.search.config.factory';
 
 const _toggleSortingHelper = (sorting, label) => {
@@ -41,11 +41,14 @@ export default {
 	},
 
 	setup() {
-		const store = ref(LocalStore.init());
-		LocalStore.addTarget('lorems', 'lorems', []);
-		LocalStore.addTarget('selectedLorem', 'lorems', {});
-		LocalStore.addTarget('selectedLoremVersions', 'lorems', []);
-		LocalStore.updateSubscription('lorems', gridSearchConfigFactory(COLUMNS));
+		const reactiveStore = new ReactiveStore('Lorems-Store');
+		const store = ref(reactiveStore.getStore());
+		onUnmounted(() => reactiveStore.destroy());
+
+		reactiveStore.addTarget('lorems', 'lorems', []);
+		reactiveStore.addTarget('selectedLorem', 'lorems', {});
+		reactiveStore.addTarget('selectedLoremVersions', 'lorems', []);
+		reactiveStore.updateSubscription('lorems', gridSearchConfigFactory(COLUMNS));
 
 		let page = ref(1);
 		let pageSize = ref(10);
@@ -59,7 +62,7 @@ export default {
 				search: search.value,
 				sort: sort.value
 			});
-			LocalStore.updateSubscription('lorems', config);
+			reactiveStore.updateSubscription('lorems', config);
 		};
 
 		const _isSelected = (lorem) =>
@@ -68,22 +71,22 @@ export default {
 		const _unselect = () => {
 			store.value.selectedLorem = {};
 			store.value.selectedLoremVersions = [];
-			LocalStore.closeSubscription('selected');
-			LocalStore.closeSubscription('selectedLoremVersions');
+			reactiveStore.closeSubscription('selected');
+			reactiveStore.closeSubscription('selectedLoremVersions');
 		};
 
 		const _select = (lorem) => {
 			store.value.selectedLorem = lorem;
 			store.value.selectedLoremVersions = [];
 
-			LocalStore.updateSubscription('selectedLorem', {
+			reactiveStore.updateSubscription('selectedLorem', {
 				query: {
 					itemId: lorem.itemId,
 					isLatest: true
 				}
 			});
 
-			LocalStore.updateSubscription('selectedLoremVersions', {
+			reactiveStore.updateSubscription('selectedLoremVersions', {
 				query: {itemId: lorem.itemId},
 				sort: {iteration: -1}
 			});

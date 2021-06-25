@@ -22,6 +22,20 @@ export default class ReactiveStore {
 		this._targets = {};
 		this._handlers = {};
 		this._sources = {};
+		this._store = reactive({});
+
+		this._subscription = ClientSocket.init() //
+			.pipe(filter((message) => _isValidMessage(this._targets, message)))
+			.subscribe({
+				next: (message) => this._process(message),
+				error: (err) => console.log('error', err),
+				complete: () => console.log('completed')
+			});
+		console.log(this._name, 'initialized.');
+	}
+
+	getStore() {
+		return this._store;
 	}
 
 	isLoaded(target) {
@@ -50,7 +64,11 @@ export default class ReactiveStore {
 	}
 
 	addTarget(target, collection, initial, handler) {
-		if (_.includes(_.keys(this._targets), target)) return console.error(`Target ${target} already exists!`);
+		// if (_.includes(_.keys(this._targets), target)) return console.error(`Target ${target} already exists!`);
+		_.unset(this._targets, target);
+		_.unset(this._store, target);
+		_.unset(this._sources, target);
+		_.unset(this._handlers, target);
 
 		const targetObject = {observe: collection, initial};
 
@@ -69,41 +87,28 @@ export default class ReactiveStore {
 		if (_.isFunction(handler)) _.set(this._handlers, target, handler);
 	}
 
-	init() {
-		this.destroy();
-
-		this._targets = {};
-		this._handlers = {};
-		this._sources = {};
-		this._store = reactive({});
-
-		this._subscription = ClientSocket.init() //
-			.pipe(filter((message) => _isValidMessage(this._targets, message)))
-			.subscribe({
-				next: (message) => this._process(message),
-				error: (err) => console.log('error', err),
-				complete: () => console.log('completed')
-			});
-		console.log(this._name, 'initialized.');
-
-		return this._store;
+	loadOnce(target, collection, initial, config) {
+		const closeSubscription = () => this.closeSubscription(target);
+		this.addTarget(target, collection, initial, closeSubscription);
+		this.updateSubscription(target, config);
 	}
 
-	getStore() {
-		return this._store;
-	}
-
-	destroy() {
+	_cleanup() {
 		if (this._subscription) this._subscription.unsubscribe();
 		this._subscription = null;
 		this._targets = null;
 		this._handlers = null;
 		this._sources = null;
 		this._store = null;
+	}
+
+	destroy() {
+		this._cleanup();
 		console.log(this._name, 'destroyed.');
 	}
 
 	_process(message) {
+		// console.log('_process', message);
 		const {type, target, payload} = message;
 		const {scope} = this._targets[target];
 		if (!scope) return;

@@ -1,10 +1,10 @@
-import {ref} from 'vue';
+import {onUnmounted, ref} from 'vue';
 
 import moment from 'moment';
 
 import router from '@/router';
 import Versions from './versions/Versions.vue';
-import LocalStore from '@/_reactivestack/store/local.store';
+import ReactiveStore from '@/_reactivestack/store/reactive.store';
 import {sendGet} from '@/functions/send.fetch';
 
 export default {
@@ -12,7 +12,9 @@ export default {
 	components: {Versions},
 
 	setup() {
-		const store = ref(LocalStore.getStore());
+		const reactiveStore = new ReactiveStore('Preview-Store');
+		const store = ref(reactiveStore.getStore());
+		onUnmounted(() => reactiveStore.destroy());
 
 		return {
 			store,

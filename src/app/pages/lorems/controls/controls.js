@@ -1,12 +1,14 @@
-import {ref, computed, watch} from 'vue';
-import LocalStore from '@/_reactivestack/store/local.store';
+import {ref, computed, watch, onUnmounted} from 'vue';
+import ReactiveStore from '@/_reactivestack/store/reactive.store';
 
 export default {
 	name: 'Controls',
 	emits: ['resend-config'],
 
 	setup(props, context) {
-		const store = ref(LocalStore.getStore());
+		const reactiveStore = new ReactiveStore('Controls-Store');
+		const store = ref(reactiveStore.getStore());
+		onUnmounted(() => reactiveStore.destroy());
 
 		let page = ref(1);
 		let pageSize = ref(10);

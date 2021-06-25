@@ -1,13 +1,10 @@
-import ReactiveStore from '@/_reactivestack/store/reactive.store';
+import ReactiveStore from './reactive.store';
 
 export default class GlobalStore {
 	static _instance;
 
 	static getStore() {
-		if (!GlobalStore._instance) {
-			GlobalStore._instance = new ReactiveStore('GlobalStore');
-			return GlobalStore._instance.init();
-		}
+		if (!GlobalStore._instance) GlobalStore._instance = new ReactiveStore('GlobalStore');
 		return GlobalStore._instance.getStore();
 	}
 
@@ -16,9 +13,7 @@ export default class GlobalStore {
 	}
 
 	static loadOnce(target, collection, initial, config) {
-		const closeSubscription = () => GlobalStore._instance.closeSubscription(target);
-		GlobalStore._instance.addTarget(target, collection, initial, closeSubscription);
-		GlobalStore._instance.updateSubscription(target, config);
+		GlobalStore._instance.loadOnce(target, collection, initial, config);
 	}
 
 	static addTarget(target, collection, initial, handler) {
