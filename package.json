@@ -13,8 +13,9 @@
 		"lint": "vue-cli-service lint",
 		"format": "prettier --write \"src/**/*.js\"",
 		"start": "npm run serve",
-		"last": "yarn upgrade-interactive --latest",
-		"up": "yarn upgrade-interactive"
+		"up": "yarn upgrade-interactive",
+		"upgrade": "yarn upgrade --latest",
+		"latest": "yarn upgrade-interactive --latest"
 	},
 	"dependencies": {
 		"core-js": "^3.6.5",
