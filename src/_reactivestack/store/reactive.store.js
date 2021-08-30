@@ -2,7 +2,7 @@ import _ from 'lodash';
 import {reactive} from 'vue';
 import {filter} from 'rxjs/operators';
 
-import ClientSocket from '@/_reactivestack/client.socket';
+import ClientSocket from '@/client.socket';
 
 const _isValidMessage = (targets, message) => {
 	const {type, target} = message;
@@ -16,6 +16,7 @@ export default class ReactiveStore {
 	_handlers;
 	_sources;
 	_store;
+	_loaded;
 
 	constructor(name) {
 		this._name = name;
@@ -23,6 +24,7 @@ export default class ReactiveStore {
 		this._handlers = {};
 		this._sources = {};
 		this._store = reactive({});
+		this._loaded = {};
 
 		this._subscription = ClientSocket.init() //
 			.pipe(filter((message) => _isValidMessage(this._targets, message)))
@@ -39,13 +41,14 @@ export default class ReactiveStore {
 	}
 
 	isLoaded(target) {
-		return !_.isEmpty(_.get(this._store, target));
+		return _.get(this._loaded, target, false);
 	}
 
 	updateSubscription(target, config) {
 		// console.log('updateSubscription', {target, config});
 		const {observe, scope} = this._targets[target];
 		if (!observe || !scope) return;
+		_.set(this._loaded, target, false);
 		if (!config.query) config = {query: config};
 		ClientSocket.updateSubscription({target, observe, scope, config});
 	}
@@ -60,6 +63,7 @@ export default class ReactiveStore {
 		_.unset(this._store, target);
 		_.unset(this._sources, target);
 		_.unset(this._handlers, target);
+		_.unset(this._loaded, target);
 		ClientSocket.closeSubscription({target});
 	}
 
@@ -69,6 +73,7 @@ export default class ReactiveStore {
 		_.unset(this._store, target);
 		_.unset(this._sources, target);
 		_.unset(this._handlers, target);
+		_.unset(this._loaded, target);
 
 		const targetObject = {observe: collection, initial};
 
@@ -79,6 +84,7 @@ export default class ReactiveStore {
 		_.set(this._targets, target, targetObject);
 		_.set(this._store, target, initial);
 		_.set(this._sources, target, initial);
+		_.set(this._loaded, target, false);
 		if (_.isArray(initial)) {
 			_.set(this._store, target + 'Count', 0);
 			_.set(this._sources, target + 'Count', 0);
@@ -100,6 +106,7 @@ export default class ReactiveStore {
 		this._handlers = null;
 		this._sources = null;
 		this._store = null;
+		this._loaded = null;
 	}
 
 	destroy() {
@@ -143,6 +150,7 @@ export default class ReactiveStore {
 			}
 		}
 
+		_.set(this._loaded, target, true);
 		let handler = _.get(this._handlers, target);
 		if (_.isFunction(handler)) handler();
 	}
