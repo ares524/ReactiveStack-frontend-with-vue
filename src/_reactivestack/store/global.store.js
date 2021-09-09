@@ -12,27 +12,13 @@ export default class GlobalStore {
 		return GlobalStore._instance.isLoaded(target);
 	}
 
-	static loadOnce(target, collection, initial, config) {
-		GlobalStore._instance.loadOnce(target, collection, initial, config);
-	}
-
-	static addTarget(target, collection, initial, handler) {
+	static addSubscription(target, collection, initial, config, handler) {
 		GlobalStore._instance.addTarget(target, collection, initial, handler);
-	}
-
-	static removeTarget(target) {
-		GlobalStore._instance.removeTarget(target);
-	}
-
-	static updateSubscription(target, config) {
 		GlobalStore._instance.updateSubscription(target, config);
 	}
 
-	static closeSubscription(target) {
-		GlobalStore._instance.closeSubscription(target);
+	static reloadData(target) {
+		GlobalStore._instance.reloadData(target);
 	}
 
-	static destroy() {
-		GlobalStore._instance.destroy();
-	}
 }

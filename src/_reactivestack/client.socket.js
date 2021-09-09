@@ -107,6 +107,10 @@ export default class ClientSocket extends Subject {
 		ClientSocket.send(ClientSocket._subscriptions[target]);
 	}
 
+	static reloadData(target) {
+		ClientSocket.send({target, type: 'reload'});
+	}
+
 	static closeSubscription(message) {
 		const {target} = message;
 		delete ClientSocket._subscriptions[target];

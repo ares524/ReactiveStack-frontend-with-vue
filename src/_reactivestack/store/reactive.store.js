@@ -53,6 +53,10 @@ export default class ReactiveStore {
 		ClientSocket.updateSubscription({target, observe, scope, config});
 	}
 
+	reloadData(target) {
+		ClientSocket.reloadData(target);
+	}
+
 	closeSubscription(target) {
 		ClientSocket.closeSubscription({target});
 	}
